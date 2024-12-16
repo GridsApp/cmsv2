@@ -18,7 +18,7 @@
     "extra": {
         "laravel" : {
             "providers" : [
-                "twa\\cmsv2\\provided\\DefaultServiceProvider"
+                "twa\\cmsv2\\Providers\\DefaultServiceProvider"
             ]
         }
     },
