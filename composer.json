@@ -14,6 +14,15 @@
             "email": "hovig@thewebaddicts.com"
         }
     ],
+
+    "extra": {
+        "laravel" : {
+            "providers" : [
+                "twa\\cmsv2\\provided\\DefaultServiceProvider"
+            ]
+        }
+    },
+
     "minimum-stability": "dev",
     "require": {}
 }
