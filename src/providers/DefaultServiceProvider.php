@@ -7,13 +7,13 @@ use Illuminate\Support\ServiceProvider;
 
 class DefaultServiceProvider extends ServiceProvider{
 
+    
     public function boot(){
 
     }
 
-
     public function register(){
-        
+
     }
 
 }
