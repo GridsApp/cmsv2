@@ -1,0 +1,19 @@
+{
+    "name": "twa/cmsv2",
+    "description": "This package is for the content management system provided by thewebaddicts",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "twa\\cmsv2\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "Hovig Senekjian",
+            "email": "hovig@thewebaddicts.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
