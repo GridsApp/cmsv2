@@ -1,1 +1,0 @@
-<input wire:model="value" type="hidden"/>
