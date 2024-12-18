@@ -24,6 +24,20 @@ export default class Functions {
         };
     }
 
+    initConditions(){
+        return {
+            open: false,
+            conditions: [],
+            defaultPercentage: 10,
+
+
+            deleteCondition(index) {
+                this.conditions.splice(index, 1);
+            },
+        };
+    
+    }
+
     initEditor() {
         return {
             quill: false,
