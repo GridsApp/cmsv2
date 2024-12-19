@@ -13,6 +13,7 @@ $is_footer = isset($footer) && !empty($footer);
             {{$title}}
         </div>
        
+        {!! $actions ?? null !!}
     </div>
     @endif
   

@@ -23,6 +23,17 @@ export default class Functions {
             },
         };
     }
+    initMenu() {
+        return {
+            openMenu: null,
+            selectedMenu: localStorage.getItem('selectedMenu') || null,
+            setSelectedMenu(menu) {
+                this.selectedMenu = menu;
+                localStorage.setItem('selectedMenu', menu);
+            },
+        };
+    }
+
 
     initConditions(){
         return {
@@ -38,6 +49,7 @@ export default class Functions {
     
     }
 
+  
     initEditor() {
         return {
             quill: false,
