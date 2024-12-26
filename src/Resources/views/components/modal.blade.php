@@ -5,7 +5,7 @@
 
        
      
-        <div class="modal-content relative max-w-[500px] bg-white  z-10 rounded-lg top-[15%]" @click.stop @click.away="{{$variable}} = false">
+        <div class="modal-content relative max-w-[500px] bg-white  z-10 rounded-lg " @click.stop @click.away="{{$variable}} = false">
             <div class="modal-header pr-2.5 flex justify-between items-center">
                 <h3 class="modal-title">
                     {{$title}}

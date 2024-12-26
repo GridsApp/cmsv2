@@ -3,7 +3,7 @@
 use App\Http\Controllers\EntityController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => 'web'], function () {
+Route::group(['prefix'=>'cms' ,'middleware' => 'web'], function () {
 
 
     Route::get('/login', function () {

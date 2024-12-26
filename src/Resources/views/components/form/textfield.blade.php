@@ -1,5 +1,7 @@
 
  <div x-data="Functions.initTextField('{{ $info['channel'] ?? '' }}')" @if (isset($info['channel_type']) && $info['channel_type'] == 'receiver') x-on:{{ $info['channel'] }}.window="handleSlug" @endif>
+ 
+ {{-- @dd(!(isset($info['translatable']) && $info['translatable']) && get_field_modal($info) ?? 'value') --}}
     <label class="twa-form-label">
         {{ $info['label'] }}
     </label>
@@ -21,9 +23,19 @@
         </div>
     </div>
 
-    @error(!(isset($info['translatable']) && $info['translatable']) && get_field_modal($info) ?? 'value')
+
+    {{-- @dd(!(isset($info['translatable']) && $info['translatable'])); --}}
+
+    {{-- !(isset($info['translatable']) && $info['translatable']) && --}}
+
+
+
+    @if(!(isset($info['translatable']) && $info['translatable']))
+    @error(get_field_modal($info) ?? 'value')
         <span class="form-error-message">
             {{ $message }}
         </span>
     @enderror
+    @endif
+   
 </div>

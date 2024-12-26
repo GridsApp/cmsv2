@@ -2,7 +2,7 @@
     $id = uniqid();
 @endphp
 
-<div x-on:keydown="keyDown" class="twa-language-element" id="{{ $id }}"
+<div x-on:keydown="keyDown" class="twa-language-element language-element" id="{{ $id }}"
     x-on:language-changed-{{ $id }}.window="handleChanged" x-data="Functions.initTranslatable()">
 
     <div class="relative">
@@ -13,7 +13,7 @@
                 @endforeach
             </select>
         </div>
-        <div x-ref="listelements">
+        <div  x-ref="listelements">
             @foreach (config('languages') as $index => $language)
                 @php
                     $field = [...$info];

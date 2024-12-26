@@ -26,4 +26,25 @@ class SettingsController extends Controller
 
         return view("CMSView::pages.settings");
     }
+
+    public function getSetting($key , $locale = "en"){
+
+        $setting = collect(config('settings'))->where('field' , $key)->first();
+
+        if(!$setting){
+             return null;
+        }
+    
+       $info = config('fields.' . $setting['field']);
+
+        if (!$info) {
+            return null;
+        }
+
+        $info['name'] = $setting['translatable'] ?? false ? 'value_' . $locale : 'value';
+        $value = (new $info['type']($info))->display($setting);
+
+          
+        return $value;
+    }
 }

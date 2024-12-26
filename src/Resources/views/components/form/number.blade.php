@@ -12,6 +12,9 @@
             <input wire:model="value" type="number" class="twa-form-input ">
         </div>
     </div>
+
+   
+
     @error(get_field_modal($info) ?? 'value')
         <span class="form-error-message">
             {{ $message }}

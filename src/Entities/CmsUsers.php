@@ -16,8 +16,7 @@ class CmsUsers extends Entity
 
     public function fields(){
 
-        $this->addField("first_name" , ["container" => 'col-span-7' , 'required' => true]);
-        $this->addField("last_name" , ["container" => 'col-span-7' , 'required' => true]);
+        $this->addField("name" , ["container" => 'col-span-7' , 'required' => true]);
         $this->addField("email" , ["container" => 'col-span-7' , 'required' => true]);
         $this->addField("password" , ["container" => 'col-span-7' , 'required' => false]);
       
@@ -26,8 +25,7 @@ class CmsUsers extends Entity
 
     public function columns(){
 
-        $this->addColumn("first_name");
-        $this->addColumn("last_name");
+        $this->addColumn("name");
         $this->addColumn("email");
         $this->addColumn("password");
 

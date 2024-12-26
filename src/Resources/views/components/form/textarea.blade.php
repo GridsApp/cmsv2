@@ -10,9 +10,11 @@
 </div>
     </div>
 </div>
-    @error(!(isset($info['translatable']) && $info['translatable']) && get_field_modal($info) ?? 'value')
+@if(!(isset($info['translatable']) && $info['translatable']))
+@error(get_field_modal($info) ?? 'value')
     <span class="form-error-message">
-        {{$message}}
-        </span>
-    @enderror
+        {{ $message }}
+    </span>
+@enderror
+@endif
 </div>

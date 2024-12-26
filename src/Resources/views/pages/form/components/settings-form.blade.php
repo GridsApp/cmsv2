@@ -3,6 +3,9 @@
         <div class="container-fixed">
            
             @forelse ($group_settings as $group => $settings)
+            <div class="mb-5">
+
+          
                 @component('CMSView::components.panels.default', ['title' => $group])
                     <div class="grid grid-cols-12 gap-3">
                         @foreach ($settings as $setting)
@@ -17,7 +20,7 @@
                     </div>
        
             @endcomponent
-
+        </div>
             @empty
 
             <div>No settings found!</div>

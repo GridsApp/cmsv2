@@ -23,16 +23,6 @@ export default class Functions {
             },
         };
     }
-    initMenu() {
-        return {
-            openMenu: null,
-            selectedMenu: localStorage.getItem('selectedMenu') || null,
-            setSelectedMenu(menu) {
-                this.selectedMenu = menu;
-                localStorage.setItem('selectedMenu', menu);
-            },
-        };
-    }
 
 
     initConditions(){
@@ -1844,8 +1834,12 @@ export default class Functions {
             keyDown(event) {
                 this.focusedElement = event.target.closest(".language-element");
 
+
+
                 let langPicker =
                     this.focusedElement?.querySelector(".lang-picker");
+
+                   
 
                 let values = [];
                 langPicker.querySelectorAll("option").forEach((option) => {
@@ -1854,7 +1848,9 @@ export default class Functions {
 
                 let lastIndex = values.length - 1;
 
-                if (event.key === "ArrowRight" || event.keyCode === 39) {
+                if (event.key === "ArrowUp" || event.keyCode === 38) {
+
+                
                     if (parseInt(langPicker.value) == lastIndex) {
                         langPicker.value = "0";
                     } else {
@@ -1866,7 +1862,7 @@ export default class Functions {
                     this.active = langPicker.value;
 
                     this.updateFocusedElement();
-                } else if (event.key === "ArrowLeft" || event.keyCode === 37) {
+                } else if (event.key === "ArrowDown" || event.keyCode === 40) {
                     if (parseInt(langPicker.value) === 0) {
                         langPicker.value = String(lastIndex);
                     } else {

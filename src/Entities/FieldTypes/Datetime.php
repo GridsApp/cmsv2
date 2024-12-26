@@ -25,13 +25,14 @@ class Datetime extends FieldType
             $default = $this->field['default'] ;
         }
 
+       
 
         if(isset($data->{$this->field['name']})){
-            return  now()->parse($data->{$this->field['name']});
+           
+            return  now()->parse($data->{$this->field['name']})->format('Y-m-d h:i:s');
         }
 
         return $default;
-
     }
 
     public function display($data){
