@@ -51,9 +51,11 @@
 
                     </div>
                 </template>
-                <template x-if="selected.length == 0">
-                    {!! link_button('Add new Record', route('entity.create', ['slug' => $entity['slug']]), 'primary', 'text-[12px]') !!}
-                </template>
+                @if ($enntity['slug'] ?? null)
+                    <template x-if="selected.length == 0">
+                        {!! link_button('Add new Record', route('entity.create', ['slug' => $entity['slug']]), 'primary', 'text-[12px]') !!}
+                    </template>
+                @endif
             </div>
         </div>
         <div class="twa-card-body">
@@ -105,30 +107,23 @@
                                     </td>
 
                                     @foreach ($columns as $column)
-
                                         @php
 
-
-                        
-                                            if($column['translatable']){
-                                                $column['info']['name'] =  $column['info']['name'].'_'.$firstLanguage;
+                                            if ($column['translatable']) {
+                                                $column['info']['name'] =
+                                                    $column['info']['name'] . '_' . $firstLanguage;
                                             }
 
-                                        @endphp 
-     
-                                       
-                                        <td> 
-                                        
-                                          
-                                            {!! (new ($column['type'])($column['info']))->display((array) $row) !!} 
-                                        
-                        
-                                        </td>                                    
-                                      
+                                        @endphp
 
 
+                                        <td>
 
-                                
+
+                                            {!! (new ($column['type'])($column['info']))->display((array) $row) !!}
+
+
+                                        </td>
                                     @endforeach
 
 
@@ -168,22 +163,23 @@
                     <img alt="image" class=" max-h-[230px]" src="/images/empty.svg">
 
                 </div>
-                <div class="flex flex-col gap-5 lg:gap-7.5">
-                    <div class="flex flex-col gap-3 text-center">
-                        <h2 class="text-1.5xl font-semibold text-gray-900">
-                            New Member Onboarding and Registration
-                        </h2>
-                        <p class="text-sm text-gray-800">
-                            A streamlined process to welcome and integrate new members into the team,
-                            <br>
-                            ensuring a smooth and efficient start.
-                        </p>
+                @if ($enntity['slug'] ?? null)
+                    <div class="flex flex-col gap-5 lg:gap-7.5">
+                        <div class="flex flex-col gap-3 text-center">
+                            <h2 class="text-1.5xl font-semibold text-gray-900">
+                                New Member Onboarding and Registration
+                            </h2>
+                            <p class="text-sm text-gray-800">
+                                A streamlined process to welcome and integrate new members into the team,
+                                <br>
+                                ensuring a smooth and efficient start.
+                            </p>
+                        </div>
+                        <div class="flex justify-center mb-5">
+                            {!! link_button('Add new Record', route('entity.create', ['slug' => $entity['slug']]), 'primary', 'text-[12px]') !!}
+                        </div>
                     </div>
-                    <div class="flex justify-center mb-5">
-                        {!! link_button('Add new Record', route('entity.create', ['slug' => $entity['slug']]), 'primary', 'text-[12px]') !!}
-                    </div>
-                </div>
-
+                @endif
             @endif
 
 

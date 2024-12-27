@@ -18,59 +18,63 @@ class Table extends Component
 
     public function mount()
     {
-        $currentClass = get_entity($this->slug);
-        if (!$currentClass) { abort(404); }
-        $this->entity = [
-            'title' => $currentClass->entity,
-            'table' => $currentClass->tableName,
-            'slug' => $currentClass->slug,
-            'gridRules' => $currentClass->gridRules,
-            ...$currentClass->params
-        ];
 
-        $columns = $currentClass->columns();
-        if(!$columns){
-            $columns = collect([]);
-        }
+        if ($this->slug) {
 
-        $columns = $columns->map(function($field){
-            return [
-                "name" => $field['name'],
-                "label" => $field['label'],
-                "type" => $field['type'],
-                'info' => $field,
-                'translatable' => isset($field['translatable']) && $field['translatable']
+
+            $currentClass = get_entity($this->slug);
+            if (!$currentClass) {
+                abort(404);
+            }
+            $this->entity = [
+                'title' => $currentClass->entity,
+                'table' => $currentClass->tableName,
+                'slug' => $currentClass->slug,
+                'gridRules' => $currentClass->gridRules,
+                ...$currentClass->params
             ];
-        });
 
-        $this->columns = $columns;
+            $columns = $currentClass->columns();
+            if (!$columns) {
+                $columns = collect([]);
+            }
+
+            $columns = $columns->map(function ($field) {
+                return [
+                    "name" => $field['name'],
+                    "label" => $field['label'],
+                    "type" => $field['type'],
+                    'info' => $field,
+                    'translatable' => isset($field['translatable']) && $field['translatable']
+                ];
+            });
+
+            $this->columns = $columns;
+        }
     }
 
     public function handleDelete($selected)
     {
 
 
-        if($this->entity['gridRules'] ?? null){
+        if ($this->entity['gridRules'] ?? null) {
 
-            $deleteRule = collect($this->entity['gridRules'])->where('operation' , 'delete')->first();
+            $deleteRule = collect($this->entity['gridRules'])->where('operation', 'delete')->first();
 
-            if($deleteRule){
+            if ($deleteRule) {
 
-              $ids =   DB::table($this->entity['table'])
-                ->where($deleteRule['condition']['field'] , $deleteRule['condition']['operand'], $deleteRule['condition']['value'])
-                ->pluck('id');
-    
-               $intersectionFound = collect($selected)->intersect($ids)->count() > 0;
+                $ids =   DB::table($this->entity['table'])
+                    ->where($deleteRule['condition']['field'], $deleteRule['condition']['operand'], $deleteRule['condition']['value'])
+                    ->pluck('id');
 
-               if($intersectionFound){
+                $intersectionFound = collect($selected)->intersect($ids)->count() > 0;
+
+                if ($intersectionFound) {
                     $this->render();
                     $this->sendError("Not Deleted", "You don't have permission to delete this record");
                     return response()->json(["result" => true], 200);
-               }
-
-
+                }
             }
-            
         }
 
 
@@ -118,8 +122,8 @@ class Table extends Component
         $rows = DB::table($this->entity['table'])->whereNull('deleted_at');
 
 
-        if($this->entity['conditions'] ?? null && is_array($this->entity['conditions']) && count($this->entity['conditions'])> 0 ){
-            foreach($this->entity['conditions'] as $condition){
+        if ($this->entity['conditions'] ?? null && is_array($this->entity['conditions']) && count($this->entity['conditions']) > 0) {
+            foreach ($this->entity['conditions'] as $condition) {
                 $rows->where($condition['field'], $condition['operand'], $condition['value']);
             }
         }
@@ -128,22 +132,23 @@ class Table extends Component
 
         $selects =  collect($this->columns)
 
-        ->filter(function($q){
-            return str($q['type'])->contains("twa\cmsv2\Entities\FieldTypes\Select");
-        })
-        ->values();
+            ->filter(function ($q) {
+                return str($q['type'])->contains("twa\cmsv2\Entities\FieldTypes\Select");
+            })
+            ->values();
 
-        
+
         $select_values = [];
 
-        foreach($selects as $select){
-            if(isset($select['info']['multiple']) && $select['info']['multiple']){
+        foreach ($selects as $select) {
+            if (isset($select['info']['multiple']) && $select['info']['multiple']) {
                 $select_values[] = [
-                    'field'=> $select ,
-                    'values' =>  $copyRows->pluck($select['name'])->map(function($item){
-                                        return json_decode($item);
-                                })->flatten()->unique()->values()->toArray() ];
-            }else{
+                    'field' => $select,
+                    'values' =>  $copyRows->pluck($select['name'])->map(function ($item) {
+                        return json_decode($item);
+                    })->flatten()->unique()->values()->toArray()
+                ];
+            } else {
                 $select_values[] = [
                     'field' => $select,
                     'values' => $copyRows->pluck($select['name'])->unique()->values()->toArray()
@@ -152,51 +157,50 @@ class Table extends Component
         }
 
         $display_select = [];
-        foreach($select_values as $selected_value){
-            if(($selected_value['field']['info']['options']['type'] ?? '') != 'query'){
+        foreach ($select_values as $selected_value) {
+            if (($selected_value['field']['info']['options']['type'] ?? '') != 'query') {
                 continue;
             }
 
-           $result = DB::table($selected_value['field']['info']['options']['table'])
-           ->select('id' , $selected_value['field']['info']['options']['field'].' as label')
-           ->whereIn('id' , $selected_value['values'])->get()->pluck('label','id')->toArray();
+            $result = DB::table($selected_value['field']['info']['options']['table'])
+                ->select('id', $selected_value['field']['info']['options']['field'] . ' as label')
+                ->whereIn('id', $selected_value['values'])->get()->pluck('label', 'id')->toArray();
 
-           $display_select[] = [
-            'field' => $selected_value['field'],
-            'result' => $result
-           ];
+            $display_select[] = [
+                'field' => $selected_value['field'],
+                'result' => $result
+            ];
         }
 
 
-       
 
-        $rows = $rows->paginate($this->entity['pagination'] ?? 50)->through(function ($row) use($display_select) {
 
-            foreach($display_select as $select){
+        $rows = $rows->paginate($this->entity['pagination'] ?? 50)->through(function ($row) use ($display_select) {
+
+            foreach ($display_select as $select) {
 
                 $key = $select['field']['name'];
 
-                if(!isset($row->$key)){
+                if (!isset($row->$key)) {
 
                     continue;
                 }
 
-                if(isset($select['field']['info']['multiple']) && $select['field']['info']['multiple']){
-                   $db_value = json_decode($row->$key);
-                   if(!is_array($db_value)){ $db_value = []; }
+                if (isset($select['field']['info']['multiple']) && $select['field']['info']['multiple']) {
+                    $db_value = json_decode($row->$key);
+                    if (!is_array($db_value)) {
+                        $db_value = [];
+                    }
 
-                   foreach($db_value as $db_val){
+                    foreach ($db_value as $db_val) {
+                    }
 
-                   }
-
-                   $row->$key = collect($db_value)->map(function($value) use($select){
+                    $row->$key = collect($db_value)->map(function ($value) use ($select) {
                         return $select['result'][$value];
-                   })->toArray();
-
-                }else{
+                    })->toArray();
+                } else {
                     $row->$key = $select['result'][$row->$key] ?? null;
                 }
-
             }
 
             return $row;

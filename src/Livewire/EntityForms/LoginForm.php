@@ -45,7 +45,7 @@ class LoginForm extends Component
             'cms_user' => $cms_user
         ]);
 
-        $this->redirect("/" , navigate: true);     
+        $this->redirect("/cms" , navigate: true);     
     }
 
 

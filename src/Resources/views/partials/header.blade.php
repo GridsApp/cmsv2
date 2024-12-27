@@ -12,110 +12,12 @@
 
 @endphp
 
-{{-- <header x-data="{ hasShadow: false, showDropdown: false }" @scroll.window="hasShadow = window.scrollY > 0" :class="{ 'shadow-sm': hasShadow }">
-    <div class="twa-header-container">
-        <div class="twa-header-left ">
-            @foreach ($breadcrumbs as $breadcrumb)
-                @if (!$loop->first)
-                    <i class="fa-regular fa-chevron-right "></i>
-                @endif
-                <a @if (isset($breadcrumb['link'])) href="{{ get_route_object_link($breadcrumb['link']) }}" wire:navigate @endif
-                    class="twa-header-text">
-                    {{ $breadcrumb['label'] }}
-                </a>
-            @endforeach
-
-        </div>
-        <div class="twa-header-right">
-            <button class="twa-btn-icon  ">
-                <i class="fa-sharp fa-regular fa-magnifying-glass"></i>
-            </button>
-          
-            @if (!request()->input('cms_user'))
-                <a href="{{ route('login') }}" class="twa-btn-icon  ">
-                    <i class="fa-solid fa-user"></i>
-                </a>
-            @else
-                <form style="visibility: hidden" id="logout-form" method="POST" action="{{ route('logout') }}">
-                    @csrf
-                </form>
-
-                <div @click="showDropdown = !showDropdown" class="relative"
-                    href="{{ route('entity', ['slug' => 'cms-users']) }}" class="text-sm">
-                   
-                    <div class="initials-circle">{{ $initials }}</div>
-                </div>
-                <div x-show="showDropdown" @click.outside="showDropdown = false" x-cloak
-                    class="menu-dropdown-container">
-                    <div class="menu-dropdown ">
-                        <div class="text-[12px] !text-[#252f4a] flex flex-row gap-1">
-                            <div>
-                                {{ $firstName }}
-                            </div>
-                            <div>
-                                {{ $lastName }}
-                            </div>
-                        </div>
-                        <div class="text-[10px] opacity-85">
-                            {{ $email }}
-                        </div>
-                    </div>
-                    <div class="menu-separator"></div>
-                   <div class="menu-dropdown flex items-center  gap-2">
-                    <i class="fa-regular fa-circle-user"></i>
-                    <a href="{{ route('entity', ['slug' => 'cms-users']) }}" class="">
-                        Account Settings
-                    </a>
-                   </div>
-                    <div class="menu-dropdown">
-                        <a href="javascript:;" onclick="document.getElementById('logout-form').submit()"
-                            class="btn btn-sm btn-light justify-center">
-                            Logout
-                        </a>
-                    </div>
-
-                </div>
-
-              
-            @endif
-
-
-
-            
-        </div>
-    </div>
-</header> --}}
-
-
-{{-- 
-<div class="twa-menu-section">
-    <div class="grid">
-        <div class="">
-            <div class="twa-menu ">
-                @foreach ($breadcrumbs[0]['children'] ?? [] as $child)
-                    <a wire:navigate href="{{ get_route_object_link($child['link']) }}"
-                        class="twa-menu-item  @if (get_route_object_link($child['link']) == get_route_object_link($breadcrumbs[1]['link'] ?? null)) twa-menu-item-active @endif">
-                        <div class="twa-menu-link ">
-                            <span class="twa-menu-title">
-                                <span>{{ $child['label'] }}</span>
-                            </span>
-
-                        </div>
-                    </a>
-                @endforeach
-
-            </div>
-        </div>
-    </div>
-
-
-</div> --}}
 
 <header x-data="{ openMenuIndex: null, open: false, activeParentIndex: null }"
     class="flex relative z-100 h-[95px] top-0 items-center py-4 lg:py-0 border-b-gray-200 border-b" id="header">
     <div class="container-fixed-header flex flex-wrap gap-2 items-center lg:gap-4 h-full" id="header_container">
         <div class="flex items-stretch gap-10 h-full grow">
-            <a href="/" class=" flex items-center">
+            <a href="/cms" class=" flex items-center">
                 <img class="default-logo h-[20px]" src="/images/logo/twa.svg" alt="Logo">
             </a>
 
