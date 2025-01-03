@@ -51,7 +51,7 @@
 
                     </div>
                 </template>
-                @if ($enntity['slug'] ?? null)
+                @if ($entity['slug'] ?? null)
                     <template x-if="selected.length == 0">
                         {!! link_button('Add new Record', route('entity.create', ['slug' => $entity['slug']]), 'primary', 'text-[12px]') !!}
                     </template>
@@ -163,7 +163,7 @@
                     <img alt="image" class=" max-h-[230px]" src="/images/empty.svg">
 
                 </div>
-                @if ($enntity['slug'] ?? null)
+                @if ($entity['slug'] ?? null)
                     <div class="flex flex-col gap-5 lg:gap-7.5">
                         <div class="flex flex-col gap-3 text-center">
                             <h2 class="text-1.5xl font-semibold text-gray-900">
@@ -176,6 +176,9 @@
                             </p>
                         </div>
                         <div class="flex justify-center mb-5">
+
+                            {{-- <a href="{{route('entity.create', ['slug' => $entity['slug']])}}" class="btn btn-primary text-[12px]"> Add new Record </a> --}}
+
                             {!! link_button('Add new Record', route('entity.create', ['slug' => $entity['slug']]), 'primary', 'text-[12px]') !!}
                         </div>
                     </div>
