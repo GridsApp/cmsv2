@@ -879,6 +879,7 @@ export default class Functions {
     }
 
     TWAToast(title, description, type, position) {
+        console.log("here");
         window.dispatchEvent(
             new CustomEvent("toast-show", {
                 detail: {

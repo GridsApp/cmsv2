@@ -1,14 +1,20 @@
 @php
     $breadcrumbs = get_breadcrumbs();
-    $email = request()->input('cms_user')['email'] ?? '';
 
-    // $firstName = 'Hovig';
-    // $lastName = 'Senekjian';
 
-    [$firstName, $lastName] = explode(' ', request()->input('cms_user')['name']);
-    $initials = strtoupper(substr($firstName, 0, 1) . substr($lastName, 0, 1));
+    $cms_user = request()->input('cms_user');
 
-    // $initials = 'HS';
+    if($cms_user){
+        $email = $cms_user['email'] ?? '';
+        $explode = explode(' ', $cms_user['name']);
+        $firstName = $explode[0] ?? "";
+        $lastName = $explode[1] ?? "";
+        
+        $initials = strtoupper( (strlen($firstName) > 0 ? substr($firstName, 0, 1) : "") . (strlen($lastName) > 0 ? substr($lastName, 0, 1) : ""));
+    }else{
+        $email = null;
+        $initials = null;
+    }
 
 @endphp
 
@@ -82,6 +88,8 @@
                         </form>
                         <div>
 
+
+                            @if($cms_user)
                             <div class="relative cursor-pointer h-full">
                                 <div>
                                     <div class="initials-circle">{{ $initials }}</div>
@@ -130,6 +138,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         </div>
                     @endif
                 </div>

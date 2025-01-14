@@ -121,10 +121,14 @@ class Table extends Component
 
         $rows = DB::table($this->entity['table'])->whereNull('deleted_at');
 
-
         if ($this->entity['conditions'] ?? null && is_array($this->entity['conditions']) && count($this->entity['conditions']) > 0) {
             foreach ($this->entity['conditions'] as $condition) {
-                $rows->where($condition['field'], $condition['operand'], $condition['value']);
+
+                if (is_array($condition['value'])) {
+                    $rows->whereIn($condition['field'], $condition['value']);
+                } else {
+                    $rows->where($condition['field'], $condition['operand'], $condition['value']);
+                }
             }
         }
 

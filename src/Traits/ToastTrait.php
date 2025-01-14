@@ -28,6 +28,7 @@ trait ToastTrait {
     }
 
     public function sendSuccess($title , $description = "" ) {
+     
         $this->dispatch('toast-show' , 
         type : "success",
         message : $title,

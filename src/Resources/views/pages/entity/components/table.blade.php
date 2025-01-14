@@ -204,7 +204,7 @@
 
 
         <div x-show="actions.allowEdit" class="dropdown-menu-item">
-            <a :href="'/{{ $entity['slug'] }}/update/' + actionsActive" class="dropdown-menu-link">
+            <a :href="'/cms/{{ $entity['slug'] }}/update/' + actionsActive" class="dropdown-menu-link">
                 <span class="dropdown-menu-icon"><i class="fa-light fa-pen-to-square"></i></span>
                 <span class="dropdown-menu-title">Edit Record</span>
             </a>
