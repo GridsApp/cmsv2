@@ -26,5 +26,5 @@ $is_footer = isset($footer) && !empty($footer);
     {!! $footer !!}
     </div>
     @endif
-       
+       {{--  --}}
 </div>
