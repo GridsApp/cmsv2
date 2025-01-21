@@ -16,7 +16,7 @@ $is_footer = isset($footer) && !empty($footer);
         {!! $actions ?? null !!}
     </div>
     @endif
-  
+  {{--  --}}
    <div class="card-body grid gap-5 {{$classes ?? ''}} @if(!$is_header) card-body-rounded-top  @endif @if(!$is_footer) card-body-rounded-bottom @endif">
     {!! $slot !!}
    </div>
@@ -26,5 +26,5 @@ $is_footer = isset($footer) && !empty($footer);
     {!! $footer !!}
     </div>
     @endif
-       {{--  --}}
+
 </div>
