@@ -1,4 +1,4 @@
-@php
+{{-- @php
     $showHandler = $showHandler ?? "isDrawerOpen";
     $closeHandler = $closeHandler ?? "closeDrawer";
 @endphp
@@ -40,4 +40,4 @@
             </div>
         </div>
     </div>
-</template>
+</template> --}}

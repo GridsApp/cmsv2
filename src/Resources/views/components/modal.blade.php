@@ -1,6 +1,5 @@
-<div x-cloak  >
-    {{-- <div class="absolute inset-0 bg-gray-900 opacity-50" @click="{{$variable}} = false"></div> --}}
-
+{{-- <div x-cloak  >
+    
     <div x-show="{{$variable}}" class="modal fixed inset-0 z-50 flex items-center justify-center" >
 
        
@@ -40,4 +39,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}

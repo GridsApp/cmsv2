@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Url;
 
 
-use twa\cmsv2\Traits\ToastTrait;
+use twa\uikit\Traits\ToastTrait;
 
 trait FormTrait {
 

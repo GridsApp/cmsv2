@@ -17,7 +17,7 @@ class FileUpload extends FieldType
     }
 
     public function value($form){
-
+      
 
         $field = $this->field;
 
@@ -80,7 +80,7 @@ class FileUpload extends FieldType
 
     public function initalValue($data)
     {
-
+       
     
         $field = $this->field;
 

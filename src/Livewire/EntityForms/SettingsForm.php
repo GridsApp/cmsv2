@@ -8,7 +8,7 @@ namespace twa\cmsv2\Livewire\EntityForms;
 
 use Livewire\Component;
 use twa\cmsv2\Traits\FormTrait;
-use twa\cmsv2\Traits\ToastTrait;
+use twa\uikit\Traits\ToastTrait;
 
 class SettingsForm extends Component
 {

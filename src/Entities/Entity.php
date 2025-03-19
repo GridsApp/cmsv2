@@ -2,6 +2,7 @@
 
 namespace twa\cmsv2\Entities;
 
+use Illuminate\Support\Facades\Route;
 
 class Entity
 {
@@ -14,13 +15,74 @@ class Entity
     public $form = null;
     public $gridRules = [];
 
+    public $row_operations = [];
+    public $table_operations = [];
+
     public function __construct()
     {
         $this->fields = collect([]);
         $this->columns = collect([]);
 
         $this->addColumn('id');
+
+
+
+        $this->setRowOperations();
+        $this->setTableOperations();
+
     }
+
+    public function setRowOperation($label , $link , $icon){
+        $this->row_operations [] = 
+            [
+                'label' => $label,
+                'link' => $link,
+                'icon' => $icon,
+            ]
+        ;
+    }
+    public function setTableOperation($label , $link , $icon){
+        $this->table_operations [] = 
+            [
+                'label' => $label,
+                'link' => $link,
+                'icon' => $icon,
+            ]
+        ;
+    }
+
+
+    // $table->addTableOperation(
+    //     'Add New Record',
+    //     route('entity.create', ['slug' => $slug]),
+    //     '<i class="fa-solid fa-plus"></i>'
+    // );
+    
+    // $edit_route = "/".Route::getRoutes()->getByName('entity.update')->uri();
+
+    // $table->addRowOperation(
+    //     'Edit',
+    //    str_replace('{slug}' , $slug , $edit_route),
+    //     '<i class="fa-solid fa-plus"></i>'
+    // );
+
+
+    public function setRowOperations(){
+
+        $edit_route = "/".Route::getRoutes()->getByName('entity.update')->uri();
+
+        $this->setRowOperation("Edit" ,  str_replace('{slug}' , $this->slug , $edit_route),  '<i class="fa-solid fa-edit"></i>');
+       
+
+    }
+
+    public function setTableOperations(){
+
+    
+        $this->setTableOperation("Add New Record" ,  route('entity.create', ['slug' => $this->slug]),  '<i class="fa-solid fa-plus"></i>');
+          
+    }
+
 
 
 
@@ -37,6 +99,7 @@ class Entity
     public function addColumn($field , $params = []){
         $field = config('fields.'.$field);
 
+        
         if(!$field){
             return $this;
         }

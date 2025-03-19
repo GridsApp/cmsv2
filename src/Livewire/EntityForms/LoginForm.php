@@ -5,7 +5,7 @@ namespace twa\cmsv2\Livewire\EntityForms;
 
 use twa\cmsv2\Models\CmsUser;
 use twa\cmsv2\Traits\FormTrait;
-use twa\cmsv2\Traits\ToastTrait;
+use twa\uikit\Traits\ToastTrait;
 use Livewire\Component;
 
 class LoginForm extends Component

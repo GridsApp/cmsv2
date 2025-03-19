@@ -1,13 +1,13 @@
 <?php
 
-namespace twa\cmsv2\Livewire;
+// namespace twa\cmsv2\Livewire;
 
-use Livewire\Component;
+// use Livewire\Component;
 
-class Drawer extends Component
-{
-    public function render()
-    {
-        return view('CMSView::components.form.date');
-    }
-}
+// class Drawer extends Component
+// {
+//     public function render()
+//     {
+//         return view('CMSView::components.form.date');
+//     }
+// }

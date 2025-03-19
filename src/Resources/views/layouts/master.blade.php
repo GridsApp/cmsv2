@@ -6,10 +6,10 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         @yield('master-head')
         @livewireStyles
-        @vite(['resources/scss/app.scss', 'resources/js/app.js'])
+        @vite(['resources/scss/app.scss', 'resources/js/app.js' , ...app('field-assets')])
     </head>
     <body>
-        @include('CMSView::components.toast')
+        @include('UIKitView::components.toast')
         @livewireScripts
         @yield('master-content')
     </body>

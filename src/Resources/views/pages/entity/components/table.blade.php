@@ -12,6 +12,10 @@
         ->where('operation', 'edit')
         ->first();
 
+        
+
+
+
 @endphp
 
 <div x-data="window.Functions.initTable()" class="twa-table-section ">

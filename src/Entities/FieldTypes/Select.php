@@ -13,7 +13,7 @@ class Select extends FieldType
 
     public function db(&$table)
     {
-
+      
     
        if($this->field['options']['type'] ?? null == "static"){
             $table->string($this->field['name'])->nullable();
@@ -54,6 +54,8 @@ class Select extends FieldType
 
     public function value($form)
     {
+     
+       
         if (isset($this->field['multiple']) && $this->field['multiple']) {
             if ($form[$this->field['name']] ?? null) {
                 return json_encode($form[$this->field['name']]);
