@@ -25,16 +25,22 @@ class EntityController extends Controller
 
 
 
-        // dd($entity->columns());
-
         foreach ($entity->columns() as $column) {
+
+            
+
+        
+
 
             if (isset($column['label']) && isset($column['name']) && isset($column['type'])) {
                 $label = $column['label'];
                 $name = $column['name'];
+
+
                 $column_type = $column['type'];
                 $field = $column;
                 $typeInstance = new $column_type($field);
+
                 $type = $typeInstance->columnType();
                 $operationType = $typeInstance->operationType();
                 $instance = new $operationType(null, null, null);
@@ -46,6 +52,23 @@ class EntityController extends Controller
                     $table = $table->belongsTo($field['options']['table'], $field['name'],  false)
                         ->addColumn($label, $name,  $type, \twa\uikit\Classes\ColumnOperationTypes\DefaultOperationType::class, [$field['options']['table'] . '.' . $field['options']['field']]);
                     continue;
+                }
+
+                if($column['filterable']){
+
+                    $filterType = $typeInstance->filterType();
+
+                    $attributes = [
+                      
+                    ];
+
+                    if($column['options']['table'] ?? null){
+                        $attributes['table'] =  $column['options']['table'];
+                        $attributes['foreign_key'] = $column['name'];
+                        $attributes['column'] = $column['options']['field'];
+                    }
+                    
+                    $table = $table->addFilter($label, $name, $name, $filterType , $attributes);
                 }
 
 
@@ -78,6 +101,18 @@ class EntityController extends Controller
         }
 
 
+        
+        // dd($entity->conditions);
+
+        $conditions = update_conditions($entity->conditions);
+
+        foreach($conditions as $condition){
+            $table->addCondition($condition['type'] , $condition['column'] , $condition['value'] , $condition['operand']);
+        }
+
+
+        // dd($entity->filters());
+        // dd($conditions);
 
         // $table->addTableOperation(
         //     'Add New Record',
@@ -95,8 +130,9 @@ class EntityController extends Controller
         $path = $entity->render ? $entity->render : 'CMSView::pages.entity.index';
 
 
-   
-        // dd($table->get());
+  
+
+  
 
         return view($path, ['table' => $table->get()]);
     }

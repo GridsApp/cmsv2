@@ -14,7 +14,7 @@
                 <div class="container-fixed  ">
                     <div class="grid grid-cols-12 gap-5">
                         @foreach ($fields ?? [] as $field)
-                            {!! field($field, 'col-span-7') !!}
+                            {!! field($field) !!}
                         @endforeach
                     </div>
                 </div>

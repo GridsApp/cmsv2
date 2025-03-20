@@ -74,7 +74,8 @@
         <div class="flex items-center flex-wrap gap-2 lg:gap-3.5 h-full menu-item">
             <div class="twa-header-right ">
                 <a href="/cms/settings" class="h-full menu-title-header flex items-center">
-                    <i class="fa-regular fa-gear hover:text-gray-500"></i>
+                    <i class="fa-solid fa-gear text-gray-900 hover:text-primary-500"></i>
+                    {{-- <i class="fa-regular fa-gear hover:text-gray-500"></i> --}}
                 </a>
                 <div @mouseenter="open = true" @mouseleave="open = false">
                     @if (!request()->input('cms_user'))
@@ -123,7 +124,7 @@
                                         </div>
                                         <div class="menu-separator"></div>
                                         <div class="menu-link-dropdown  flex items-center gap-2">
-                                            <i class="fa-regular fa-circle-user"></i>
+                                            <i class="fa-solid fa-user"></i>
                                             <a href="{{ route('entity', ['slug' => 'cms-users']) }}" class="">
                                                 Account Settings
                                             </a>

@@ -3,6 +3,7 @@
 namespace twa\cmsv2\Entities;
 
 use Illuminate\Support\Facades\Route;
+use TallStackUi\View\Components\Boolean;
 
 class Entity
 {
@@ -18,10 +19,14 @@ class Entity
     public $row_operations = [];
     public $table_operations = [];
 
+    public $filters = [];
+    public $conditions = [];
+
     public function __construct()
     {
         $this->fields = collect([]);
         $this->columns = collect([]);
+
 
         $this->addColumn('id');
 
@@ -95,8 +100,12 @@ class Entity
         return $this->columns;
     }
 
+    // public function filters(){
+    //     return $this->filters;
+    // }
 
-    public function addColumn($field , $params = []){
+
+    public function addColumn($field , $params = [] , bool $filterable = false){
         $field = config('fields.'.$field);
 
         
@@ -104,9 +113,12 @@ class Entity
             return $this;
         }
 
+
+
         $this->columns->push([
             ...$field,
-            ...$params
+            ...$params,
+            'filterable' => $filterable
         ]);
 
         return $this;

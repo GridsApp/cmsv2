@@ -21,6 +21,8 @@ class CmsAuthMiddleware
             return redirect()->route('login');
         }
 
+        
+
         request()->merge([
             'cms_user' => $cms_user
         ]);

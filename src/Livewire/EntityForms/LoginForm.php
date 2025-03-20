@@ -35,6 +35,7 @@ class LoginForm extends Component
 
         $cms_user = CmsUser::where('email' , $email)->where('password' , $password)->whereNull('deleted_at')->first();
 
+        // dd($cms_user->attributes);
 
         if(!$cms_user){
             $this->sendError("Wrong Credentials" , "You have entered an invalid email and password");
@@ -42,7 +43,8 @@ class LoginForm extends Component
         }
 
         session([
-            'cms_user' => $cms_user
+            'cms_user' => $cms_user,
+            'field_permissions' => $cms_user->attributes
         ]);
 
         $this->redirect("/cms" , navigate: true);     

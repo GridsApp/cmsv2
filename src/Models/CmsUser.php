@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class CmsUser extends Model
 {
     use HasFactory;
+
+    protected $casts = [
+        'attributes' => 'array'
+    ];
 }
