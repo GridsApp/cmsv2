@@ -78,7 +78,7 @@ trait FormTrait {
             $attr_data = null;
         }
 
-        foreach($this->custom_attributes as $attr_info){
+        foreach($this->custom_attributes ?? [] as $attr_info){
             if (!isset($attr_info['name'])) {
                 continue;
             }
