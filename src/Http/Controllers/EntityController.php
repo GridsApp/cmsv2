@@ -27,9 +27,9 @@ class EntityController extends Controller
 
         foreach ($entity->columns() as $column) {
 
-            
 
-        
+
+
 
 
             if (isset($column['label']) && isset($column['name']) && isset($column['type'])) {
@@ -59,7 +59,7 @@ class EntityController extends Controller
                     $filterType = $typeInstance->filterType();
 
                     $attributes = [
-                      
+
                     ];
 
                     if($column['options']['table'] ?? null){
@@ -67,7 +67,7 @@ class EntityController extends Controller
                         $attributes['foreign_key'] = $column['name'];
                         $attributes['column'] = $column['options']['field'];
                     }
-                    
+
                     $table = $table->addFilter($label, $name, $name, $filterType , $attributes);
                 }
 
@@ -85,10 +85,10 @@ class EntityController extends Controller
 
         // dd($entity);
 
-    
+
 
         foreach($entity->row_operations as $row_operation){
-          
+
             $table->addRowOperation(
                ...$row_operation
             );
@@ -101,7 +101,7 @@ class EntityController extends Controller
         }
 
 
-        
+
         // dd($entity->conditions);
 
         $conditions = update_conditions($entity->conditions);
@@ -119,10 +119,10 @@ class EntityController extends Controller
         //     route('entity.create', ['slug' => $slug]),
         //     '<i class="fa-solid fa-plus"></i>'
         // );
-        
+
         // $edit_route = "/".Route::getRoutes()->getByName('entity.update')->uri();
 
-      
+
 
 
     //    dd( route('entity.update', ['slug' => $slug , 'id' => '[id]']));
@@ -130,9 +130,9 @@ class EntityController extends Controller
         $path = $entity->render ? $entity->render : 'CMSView::pages.entity.index';
 
 
-  
 
-  
+
+
 
         return view($path, ['table' => $table->get()]);
     }
@@ -176,11 +176,20 @@ class EntityController extends Controller
                     $table->id();
                     $table->timestamps();
                     $table->softDeletes();
+                    $table->longText('attributes')->nullable();
                 });
             }
 
+            if (Schema::hasTable($entity->tableName) && !Schema::hasColumn($entity->tableName, 'attributes')) {
+                $table->longText('attributes')->nullable();
+            }
 
             Schema::table($entity->tableName, function (Blueprint $table) use ($entity, $entity_fields) {
+
+
+
+
+
                 foreach ($entity_fields as $entity_field) {
 
                     $field = [...$entity_field];

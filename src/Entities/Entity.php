@@ -8,6 +8,7 @@ use TallStackUi\View\Components\Boolean;
 class Entity
 {
 
+    public $attributes;
     public $fields;
     public $columns;
     public $slug = "";
@@ -26,6 +27,7 @@ class Entity
     {
         $this->fields = collect([]);
         $this->columns = collect([]);
+        $this->attributes = collect([]);
 
 
         $this->addColumn('id');
@@ -38,7 +40,7 @@ class Entity
     }
 
     public function setRowOperation($label , $link , $icon){
-        $this->row_operations [] = 
+        $this->row_operations [] =
             [
                 'label' => $label,
                 'link' => $link,
@@ -47,7 +49,7 @@ class Entity
         ;
     }
     public function setTableOperation($label , $link , $icon){
-        $this->table_operations [] = 
+        $this->table_operations [] =
             [
                 'label' => $label,
                 'link' => $link,
@@ -56,36 +58,20 @@ class Entity
         ;
     }
 
-
-    // $table->addTableOperation(
-    //     'Add New Record',
-    //     route('entity.create', ['slug' => $slug]),
-    //     '<i class="fa-solid fa-plus"></i>'
-    // );
-    
-    // $edit_route = "/".Route::getRoutes()->getByName('entity.update')->uri();
-
-    // $table->addRowOperation(
-    //     'Edit',
-    //    str_replace('{slug}' , $slug , $edit_route),
-    //     '<i class="fa-solid fa-plus"></i>'
-    // );
-
-
     public function setRowOperations(){
 
         $edit_route = "/".Route::getRoutes()->getByName('entity.update')->uri();
 
         $this->setRowOperation("Edit" ,  str_replace('{slug}' , $this->slug , $edit_route),  '<i class="fa-solid fa-edit"></i>');
-       
+
 
     }
 
     public function setTableOperations(){
 
-    
+
         $this->setTableOperation("Add New Record" ,  route('entity.create', ['slug' => $this->slug]),  '<i class="fa-solid fa-plus"></i>');
-          
+
     }
 
 
@@ -100,6 +86,10 @@ class Entity
         return $this->columns;
     }
 
+    public function attributes(){
+        return $this->attributes;
+    }
+
     // public function filters(){
     //     return $this->filters;
     // }
@@ -108,7 +98,7 @@ class Entity
     public function addColumn($field , $params = [] , bool $filterable = false){
         $field = config('fields.'.$field);
 
-        
+
         if(!$field){
             return $this;
         }
@@ -135,6 +125,24 @@ class Entity
         }
 
         $this->fields->push([
+            ...$field,
+            ...$params,
+            'index' =>  count($this->fields) + 1
+        ]);
+
+        return $this;
+    }
+    public function addAttribute($field , $params = []){
+
+        if(is_string($field)){
+            $field = config('fields.'.$field);
+        }
+
+        if(!$field){
+            return $this;
+        }
+
+        $this->attributes->push([
             ...$field,
             ...$params,
             'index' =>  count($this->fields) + 1

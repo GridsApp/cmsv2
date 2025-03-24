@@ -5,7 +5,7 @@
                 <div class="grid grid-cols-12 gap-5">
                     @foreach ($fields ?? [] as $field)
 
-                        
+
 
                         {!! field($field, 'col-span-12' , null , false , false) !!}
                     @endforeach
@@ -14,8 +14,18 @@
                 <div class="container-fixed  ">
                     <div class="grid grid-cols-12 gap-5">
                         @foreach ($fields ?? [] as $field)
+
                             {!! field($field) !!}
                         @endforeach
+
+                        @foreach($custom_attributes ?? [] as $attribute)
+                            @php
+
+                                $attribute["container"] = $attribute["container"] ?? "col-span-7";
+
+                            @endphp
+                                {!! field($attribute) !!}
+                            @endforeach
                     </div>
                 </div>
             @endif
