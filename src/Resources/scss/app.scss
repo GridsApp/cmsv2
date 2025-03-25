@@ -389,6 +389,10 @@ body {
 }
 
 header {
+
+    .menu-link-header{
+        @apply h-full flex items-center;
+    }
     margin-bottom: 50px;
     .menu-item-dropdown {
         display: flex;
@@ -405,14 +409,15 @@ header {
         font-size: 0.8125rem;
         line-height: 1.125rem;
         font-weight: 500;
-        @apply text-gray-700;
+        @apply text-gray-700 cursor-pointer;
     }
     .menu-initials-container {
-        position: fixed !important;
+       
         border-color: #dbdfe9 !important;
         max-width: max-content !important;
         border: 1px solid #f1f1f4 !important;
         box-shadow: 0px 7px 18px 0px rgba(0, 0, 0, 0.09) !important;
+        @apply top-[40px] py-2.5 w-max absolute right-0 bg-white shadow-lg border border-gray-200 rounded z-[999];
     }
     .twa-header-right {
         display: flex;
@@ -455,8 +460,13 @@ header {
         margin-inline-end: 0.625rem;
         padding: 0.625rem;
         border-radius: 0.375rem;
+        cursor: pointer;
 
         box-shadow: 0px 7px 18px 0px rgba(0, 0, 0, 0.09);
+
+        &.menu-default{
+            @apply top-[70px] py-2.5 w-max absolute left-0 bg-white shadow-lg border border-gray-200 rounded z-[999];
+        }
     }
     .btn-light:hover {
         border-color: #dbdfe9;

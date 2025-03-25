@@ -19,8 +19,8 @@
 @endphp
 
 
-<header x-data="{ openMenuIndex: null, open: false, activeParentIndex: null }"
-    class="flex relative z-100 h-[95px] top-0 items-center py-4 lg:py-0 border-b-gray-200 border-b" id="header">
+<header  x-data="{ openMenuIndex: null, open: false, activeParentIndex: null }"
+    class="flex sticky bg-white  w-full z-[90] z-100 h-[80px] top-0 items-center py-4 lg:py-0 border-b-gray-200 border-b" id="header">
     <div class="container-fixed-header flex flex-wrap gap-2 items-center lg:gap-4 h-full" id="header_container">
         <div class="flex items-stretch gap-10 h-full grow">
             <a href="/cms" class=" flex items-center">
@@ -53,7 +53,7 @@
 
                             <div x-cloak x-transition:enter.duration.500ms x-transition:leave.duration.400ms
                                 x-show="isHovered"
-                                class="menu-dropdown menu-default top-[73px] py-2.5 w-max absolute left-0 bg-white shadow-lg border border-gray-200 rounded z-[999]">
+                                class="menu-dropdown menu-default ">
                                 @foreach ($menuItem['children'] as $childMenuItem)
                                     <div class="menu-item-dropdown px-4 py-2 hover:bg-gray-100">
                                         <a @click="activeParentIndex = {{ $index }}"
@@ -77,7 +77,7 @@
                     <i class="fa-solid fa-gear text-gray-900 hover:text-primary-500"></i>
                     {{-- <i class="fa-regular fa-gear hover:text-gray-500"></i> --}}
                 </a>
-                <div @mouseenter="open = true" @mouseleave="open = false">
+                <div @mouseenter="open = true" @mouseleave="open = false" class="h-full flex items-center cursor-pointer">
                     @if (!request()->input('cms_user'))
                         <a href="{{ route('login') }}" class="twa-btn-icon">
                             <i class="fa-solid fa-user"></i>
@@ -106,7 +106,7 @@
 
                                 <div x-cloak x-transition:enter.duration.500ms x-transition:leave.duration.400ms
                                     x-show="open"
-                                    class="menu-dropdown menu-initials-container menu-default top-[72px] py-2.5 w-max absolute right-0 bg-white shadow-lg border border-gray-200 rounded z-[999]">
+                                    class="menu-dropdown menu-initials-container  ">
 
                                     <div class="">
                                         <div class="menu-link-dropdown  ">

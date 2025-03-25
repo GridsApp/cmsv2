@@ -19,10 +19,9 @@ Route::group(['prefix'=>'cms' ,'middleware' => 'web'], function () {
 
     Route::group(['middleware' => \twa\cmsv2\Http\Middleware\CmsAuthMiddleware::class], function () {
 
-
         Route::post('/logout', function () {
             session(['cms_user' => null]);
-            return redirect("/");
+            return redirect('/cms'); 
         })->name('logout');
 
         Route::get('/', function () {

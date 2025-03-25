@@ -84,8 +84,12 @@ class SettingsForm extends Component
 
 
         $configContent = "<?php\n\nreturn " . var_export($config, true) . ";\n";
-        file_put_contents(__DIR__ . '/../../../config/settings.php', $configContent);
 
+        
+   
+        // file_put_contents(__DIR__ . '/../../../config/settings.php', $configContent);
+
+        file_put_contents(base_path('config/settings.php'), $configContent);
 
         $this->sendSuccess("Settings Updated", "Settings successfully updated");
         $this->render();

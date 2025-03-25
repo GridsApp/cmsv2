@@ -17,18 +17,11 @@ class EntityController extends Controller
 
         $entity = get_entity($slug);
 
-
-
-        // dd("here");
-
         $table =  (new \twa\uikit\Classes\Table\TableData($entity->entity, $entity->tableName));
 
 
 
         foreach ($entity->columns() as $column) {
-
-
-
 
 
 
@@ -166,10 +159,11 @@ class EntityController extends Controller
 
         foreach (config('entity-mapping') as $className) {
 
+           
             $entity = new $className;
-
+            
             $entity_fields =  $entity->fields();
-
+          
             if (!Schema::hasTable($entity->tableName)) {
 
                 Schema::create($entity->tableName, function (Blueprint $table) use ($entity, $entity_fields) {
@@ -180,14 +174,16 @@ class EntityController extends Controller
                 });
             }
 
+            // if (Schema::hasTable($entity->tableName) && !Schema::hasColumn($entity->tableName, 'attributes')) {
+            //     $table->longText('attributes')->nullable();
+            // }
             if (Schema::hasTable($entity->tableName) && !Schema::hasColumn($entity->tableName, 'attributes')) {
-                $table->longText('attributes')->nullable();
-            }
+    Schema::table($entity->tableName, function (Blueprint $table) {
+        $table->longText('attributes')->nullable();
+    });
+}
 
             Schema::table($entity->tableName, function (Blueprint $table) use ($entity, $entity_fields) {
-
-
-
 
 
                 foreach ($entity_fields as $entity_field) {
