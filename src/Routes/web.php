@@ -4,7 +4,7 @@ use App\Http\Controllers\EntityController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix'=>'cms' ,'middleware' => 'web'], function () {
-
+  
 
     Route::get('/login', function () {
         return view("CMSView::pages.login");
@@ -27,6 +27,9 @@ Route::group(['prefix'=>'cms' ,'middleware' => 'web'], function () {
         Route::get('/', function () {
             return view("CMSView::pages.dashboard");
         })->name('dashboard');
+        
+        Route::get('role/{id}/set-permissions', [twa\cmsv2\Http\Controllers\RolePermissionsController::class, 'render'])->name('set-permissions');
+
         // Route::get('/settings',function(){ return view("pages.settings"); })->name('settings');
         Route::get('/settings', [twa\cmsv2\Http\Controllers\SettingsController::class, 'render'])->name('settings');
         Route::get('/run-migrate', [twa\cmsv2\Http\Controllers\EntityController::class, 'migrate']);

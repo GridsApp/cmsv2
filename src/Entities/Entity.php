@@ -36,57 +36,58 @@ class Entity
 
         $this->setRowOperations();
         $this->setTableOperations();
-
     }
 
-    public function setRowOperation($label , $link , $icon){
-        $this->row_operations [] =
+    public function setRowOperation($label, $link, $icon)
+    {
+        $this->row_operations[] =
             [
                 'label' => $label,
                 'link' => $link,
                 'icon' => $icon,
-            ]
-        ;
+            ];
     }
-    public function setTableOperation($label , $link , $icon){
-        $this->table_operations [] =
+    public function setTableOperation($label, $link, $icon)
+    {
+        $this->table_operations[] =
             [
                 'label' => $label,
                 'link' => $link,
                 'icon' => $icon,
-            ]
-        ;
+            ];
     }
 
-    public function setRowOperations(){
+    public function setRowOperations()
+    {
 
-        $edit_route = "/".Route::getRoutes()->getByName('entity.update')->uri();
+        $edit_route = "/" . Route::getRoutes()->getByName('entity.update')->uri();
 
-        $this->setRowOperation("Edit" ,  str_replace('{slug}' , $this->slug , $edit_route),  '<i class="fa-solid fa-edit"></i>');
-
-
+        $this->setRowOperation("Edit",  str_replace('{slug}', $this->slug, $edit_route),  '<i class="fa-solid fa-edit"></i>');
     }
 
-    public function setTableOperations(){
+    public function setTableOperations()
+    {
 
 
-        $this->setTableOperation("Add New Record" ,  route('entity.create', ['slug' => $this->slug]),  '<i class="fa-solid fa-plus"></i>');
-
+        $this->setTableOperation("Add New Record",  route('entity.create', ['slug' => $this->slug]),  '<i class="fa-solid fa-plus"></i>');
     }
 
 
 
 
 
-    public function fields(){
+    public function fields()
+    {
         return $this->fields;
     }
 
-    public function columns(){
+    public function columns()
+    {
         return $this->columns;
     }
 
-    public function attributes(){
+    public function attributes()
+    {
         return $this->attributes;
     }
 
@@ -95,11 +96,12 @@ class Entity
     // }
 
 
-    public function addColumn($field , $params = [] , bool $filterable = false){
-        $field = config('fields.'.$field);
+    public function addColumn($field, $params = [], bool $filterable = false)
+    {
+        $field = config('fields.' . $field);
 
 
-        if(!$field){
+        if (!$field) {
             return $this;
         }
 
@@ -115,12 +117,13 @@ class Entity
     }
 
 
-    public function addField($field , $params = []){
+    public function addField($field, $params = [])
+    {
 
 
-        $field = config('fields.'.$field);
+        $field = config('fields.' . $field);
 
-        if(!$field){
+        if (!$field) {
             return $this;
         }
 
@@ -132,13 +135,14 @@ class Entity
 
         return $this;
     }
-    public function addAttribute($field , $params = []){
+    public function addAttribute($field, $params = [])
+    {
 
-        if(is_string($field)){
-            $field = config('fields.'.$field);
+        if (is_string($field)) {
+            $field = config('fields.' . $field);
         }
 
-        if(!$field){
+        if (!$field) {
             return $this;
         }
 

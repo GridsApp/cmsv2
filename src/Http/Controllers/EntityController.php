@@ -17,6 +17,8 @@ class EntityController extends Controller
 
         $entity = get_entity($slug);
 
+
+
         $table =  (new \twa\uikit\Classes\Table\TableData($entity->entity, $entity->tableName));
 
 

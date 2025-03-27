@@ -399,7 +399,7 @@ header {
         flex-direction: column;
         padding: 0;
         margin: 0;
-        @apply rounded;
+        @apply rounded cursor-pointer; 
     }
     .menu-link-dropdown {
         // margin-inline-start: 0.6rem;
@@ -1279,3 +1279,10 @@ header {
 // .manage-wallet-panel {
 //     // padding:0 !important
 // }
+
+
+.role-permission-page{
+    .contain-box{
+        @apply cursor-pointer;
+    }
+}
