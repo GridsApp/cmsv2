@@ -67,7 +67,7 @@
                         @endif
                     </div>
                 @endforeach --}}
-@dd(get_menu());
+
                 @foreach (collect(get_menu())->where('display', true) as $index => $menuItem)
                     {{-- @dd($menuItem); --}}
                     <div class="menu-item cursor-pointer
