@@ -36,6 +36,7 @@ class DefaultServiceProvider extends ServiceProvider{
     }
 
     public function register(){
+        include_once(__DIR__.'/../Helpers/default.php');
 
         $this->loadRoutesFrom(__DIR__.'/../Routes/web.php');
         $this->loadRoutesFrom(__DIR__.'/../Routes/api.php');
