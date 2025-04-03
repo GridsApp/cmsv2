@@ -1,6 +1,7 @@
 <?php
 
 namespace twa\cmsv2\Entities;
+
 use Database\Seeders\CMSUserSeeder;
 
 class CmsUsers extends Entity
@@ -14,22 +15,24 @@ class CmsUsers extends Entity
         'pagination' => 20,
     ];
 
-    public function fields(){
+    public function fields()
+    {
 
-        $this->addField("name" , ["container" => 'col-span-7' , 'required' => true]);
-        $this->addField("email" , ["container" => 'col-span-7' , 'required' => true]);
-        $this->addField("password" , ["container" => 'col-span-7' , 'required' => false]);
-        $this->addField("user_role" , ["container" => 'col-span-7' , 'required' => false]);
+        $this->addField("name", ["container" => 'col-span-7', 'required' => true]);
+        $this->addField("email", ["container" => 'col-span-7', 'required' => true]);
+        $this->addField("password", ["container" => 'col-span-7', 'required' => false]);
+        $this->addField("user_role", ["container" => 'col-span-7', 'required' => false]);
+        $this->addField("super_admin", ["container" => 'col-span-7', 'required' => false]);
 
         return $this->fields;
     }
 
-    public function columns(){
+    public function columns()
+    {
 
         $this->addColumn("name");
         $this->addColumn("email");
 
         return $this->columns;
     }
-
 }
