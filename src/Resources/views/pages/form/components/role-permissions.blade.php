@@ -4,18 +4,23 @@
             <div class="mb-5">
                 <div class="flex flex-col gap-10">
 
-                    {{-- @dd($filteredMenu); --}}
+                 
 
                     @foreach ($filteredMenu as $index => $menuItem)
 
-    
+                    {{-- @dd($menuItem['label']); --}}
+
+                    
                         @component('CMSView::components.panels.default', ['title' => $menuItem['label']])
                         @foreach ($menuItem['permissions'] as $per_index => $permission)
 
+
+             
+                   {{-- @dd($permission); --}}
                             <label class="flex flex-row gap-3 contain-box">
                                 <input type="checkbox" class="checkbox " wire:model="filteredMenu.{{$index}}.permissions.{{$per_index}}.selected" id="">
                                 <div class="text-[12px] ">
-                                 {{$permission['label']}}
+                               {{$permission['label']}}
                                 </div>
                             </label>
                             @endforeach

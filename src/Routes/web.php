@@ -29,6 +29,8 @@ Route::group(['prefix'=>'cms' ,'middleware' => 'web'], function () {
         })->name('dashboard');
         
         Route::get('role/{id}/set-permissions', [twa\cmsv2\Http\Controllers\RolePermissionsController::class, 'render'])->name('set-permissions');
+        
+        Route::get('{id}/send-notification', [twa\cmsv2\Http\Controllers\NotificationController::class, 'sendNotification'])->name('send-notification');
 
         // Route::get('/settings',function(){ return view("pages.settings"); })->name('settings');
         Route::get('/settings', [twa\cmsv2\Http\Controllers\SettingsController::class, 'render'])->name('settings');

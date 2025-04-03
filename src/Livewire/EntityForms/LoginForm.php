@@ -8,10 +8,11 @@ use twa\cmsv2\Traits\FormTrait;
 use twa\uikit\Traits\ToastTrait;
 use Livewire\Component;
 use twa\cmsv2\Models\CmsUserRolePermission;
+use twa\cmsv2\Traits\PermissionsTrait;
 
 class LoginForm extends Component
 {
-    use FormTrait, ToastTrait;
+    use FormTrait, ToastTrait,PermissionsTrait;
 
 
     public function mount()
@@ -26,37 +27,32 @@ class LoginForm extends Component
     }
 
 
-    public function getPermissions($cms_user)
-    {
-        if (empty($cms_user['roles'])) {
-            return [];
-        }
+    // public function getPermissions($cms_user)
+    // {
+    //     if (empty($cms_user['roles'])) {
+    //         return [];
+    //     }
 
-        $role_ids = collect($cms_user['roles'])->flatten()->toArray();
-
-
-        if (empty($role_ids)) {
-            return [];
-        }
+    //     $role_ids = collect($cms_user['roles'])->flatten()->toArray();
 
 
+    //     if (empty($role_ids)) {
+    //         return [];
+    //     }
 
-        $role_permissions = CmsUserRolePermission::whereNull('cms_user_role_permission.deleted_at')
-            ->whereIn('cms_user_role_id', $role_ids)
-            ->join('cms_permissions', 'cms_permissions.id', '=', 'cms_user_role_permission.cms_permission_id')
-            ->select('cms_user_role_permission.menu_key', 'cms_permissions.label as permission_label')
-            ->get();
+    //     $role_permissions = CmsUserRolePermission::whereNull('cms_user_role_permission.deleted_at')
+    //         ->whereIn('cms_user_role_id', $role_ids)
+    //         ->join('cms_permissions', 'cms_permissions.id', '=', 'cms_user_role_permission.cms_permission_id')
+    //         ->select('cms_permissions.key as permission_key')
+    //         ->get();
 
-        if ($role_permissions->isEmpty()) {
-            return [];
-        }
-        $permissions = $role_permissions->groupBy('menu_key')->map(function ($permissions) {
-            return $permissions->pluck('permission_label')->toArray();
-        })->toArray();
-
-
-        return $permissions;
-    }
+    //     if ($role_permissions->isEmpty()) {
+    //         return [];
+    //     }
+    //     $permissions = $role_permissions->pluck('permission_key')->toArray();
+       
+    //     return $permissions;
+    // }
 
 
     public function handleLogin()
@@ -81,7 +77,7 @@ class LoginForm extends Component
 
         $permissions = $this->getPermissions($cms_user);
 
-
+        
         session([
             'cms_user' => $cms_user,
             'field_permissions' => $cms_user->attributes,

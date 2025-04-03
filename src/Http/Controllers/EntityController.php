@@ -3,9 +3,11 @@
 namespace twa\cmsv2\Http\Controllers;
 
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Route;
+use twa\cmsv2\Models\CmsPermissions;
 use twa\uikit\Classes\ColumnOperationTypes\BelongsTo;
 use twa\uikit\Classes\ColumnOperationTypes\FileUpload;
 use twa\uikit\Classes\ColumnOperationTypes\ManyToMany;
@@ -14,6 +16,10 @@ class EntityController extends Controller
 {
     public function render($slug)
     {
+        if(!cms_check_permission("show-".$slug)){
+            abort(404);
+        }
+
 
         $entity = get_entity($slug);
 
@@ -49,21 +55,19 @@ class EntityController extends Controller
                     continue;
                 }
 
-                if($column['filterable']){
+                if ($column['filterable']) {
 
                     $filterType = $typeInstance->filterType();
 
-                    $attributes = [
+                    $attributes = [];
 
-                    ];
-
-                    if($column['options']['table'] ?? null){
+                    if ($column['options']['table'] ?? null) {
                         $attributes['table'] =  $column['options']['table'];
                         $attributes['foreign_key'] = $column['name'];
                         $attributes['column'] = $column['options']['field'];
                     }
 
-                    $table = $table->addFilter($label, $name, $name, $filterType , $attributes);
+                    $table = $table->addFilter($label, $name, $name, $filterType, $attributes);
                 }
 
 
@@ -78,33 +82,38 @@ class EntityController extends Controller
             }
         }
 
-        // dd($entity);
-
-
-
-        foreach($entity->row_operations as $row_operation){
-
-            $table->addRowOperation(
-               ...$row_operation
-            );
-        }
-
-        foreach($entity->table_operations as $table_operation){
-            $table->addTableOperation(
-               ...$table_operation
-            );
+    
+        foreach ($entity->row_operations as $row_operation) {
+           
+                $table->addRowOperation(
+                    ...$row_operation
+                );
+         
         }
 
 
+        foreach ($entity->table_operations as $table_operation) {
+           
+                $table->addTableOperation(
+                    ...$table_operation
+                );
+ 
+        }
 
-        // dd($entity->conditions);
+
+
+
 
         $conditions = update_conditions($entity->conditions);
 
-        foreach($conditions as $condition){
-            $table->addCondition($condition['type'] , $condition['column'] , $condition['value'] , $condition['operand']);
+        foreach ($conditions as $condition) {
+            $table->addCondition($condition['type'], $condition['column'], $condition['value'], $condition['operand']);
         }
 
+
+        if (!cms_check_permission("delete-" . $slug)) {
+            $table->disableDelete();
+        }
 
         // dd($entity->filters());
         // dd($conditions);
@@ -120,13 +129,16 @@ class EntityController extends Controller
 
 
 
-    //    dd( route('entity.update', ['slug' => $slug , 'id' => '[id]']));
+        //    dd( route('entity.update', ['slug' => $slug , 'id' => '[id]']));
 
         $path = $entity->render ? $entity->render : 'CMSView::pages.entity.index';
 
 
 
 
+        $permissions = $this->generatePermissions();
+
+        // dd($permissions);
 
 
         return view($path, ['table' => $table->get()]);
@@ -161,11 +173,11 @@ class EntityController extends Controller
 
         foreach (config('entity-mapping') as $className) {
 
-           
+
             $entity = new $className;
-            
+
             $entity_fields =  $entity->fields();
-          
+
             if (!Schema::hasTable($entity->tableName)) {
 
                 Schema::create($entity->tableName, function (Blueprint $table) use ($entity, $entity_fields) {
@@ -180,16 +192,14 @@ class EntityController extends Controller
             //     $table->longText('attributes')->nullable();
             // }
             if (Schema::hasTable($entity->tableName) && !Schema::hasColumn($entity->tableName, 'attributes')) {
-    Schema::table($entity->tableName, function (Blueprint $table) {
-        $table->longText('attributes')->nullable();
-    });
-}
+                Schema::table($entity->tableName, function (Blueprint $table) {
+                    $table->longText('attributes')->nullable();
+                });
+            }
 
             Schema::table($entity->tableName, function (Blueprint $table) use ($entity, $entity_fields) {
 
-
                 foreach ($entity_fields as $entity_field) {
-
                     $field = [...$entity_field];
 
                     if (isset($field['translatable']) && $field['translatable']) {
@@ -223,4 +233,77 @@ class EntityController extends Controller
             }
         }
     }
+
+    public function generatePermissions()
+    {
+        $menu = config('menu');
+        $permissions = [];
+        $existing = DB::table('cms_permissions')->pluck('key')->toArray();
+    
+     
+        $processPermissions = function ($menuKey, $newPermissions, $type) use (&$permissions, &$existing) {
+            foreach ($newPermissions as $permission) {
+                $key = $permission['key'] ?? null;
+                $label = $permission['label'] ?? null;
+    
+                if ($key && !in_array($key, $existing)) {
+                    $permissions[] = [
+                        'key' => $key,
+                        'label' => $label,
+                        'type' => $type,
+                        'menu_key' => $menuKey,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ];
+                    $existing[] = $key;
+                }
+            }
+        };
+    
+      
+        $processMenu = function ($items) use (&$processMenu, &$processPermissions) {
+            foreach ($items as $item) {
+                $menuKey = $item['key'] ?? null;
+                
+               
+                if (isset($item['children'])) {
+                    $processMenu($item['children']);
+                }
+    
+               
+                if ($menuKey) {
+                    if (!empty($item['permissions'])) {
+                        $processPermissions($menuKey, $item['permissions'], 'static');
+                    }
+    
+                   
+                    if (isset($item['link']['name']) && $item['link']['name'] === 'entity') {
+                        $slug = $item['link']['params']['slug'] ?? $item['link']['slug'] ?? $item['entity'] ?? null;
+                        if ($slug) {
+                            $entity = get_entity($slug);
+                            if ($entity) {
+                                $processPermissions($menuKey, $entity->getPermissions(), 'entity');
+                            }
+                        }
+                    }
+                }
+            }
+        };
+    
+      
+        $processMenu($menu);
+    
+ 
+        if (!empty($permissions)) {
+            foreach ($permissions as $permission) {
+                DB::table('cms_permissions')->updateOrInsert(
+                    ['key' => $permission['key']],
+                    $permission
+                );
+            }
+        }
+    
+        return $permissions;
+    }
+    
 }

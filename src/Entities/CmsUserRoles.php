@@ -10,7 +10,6 @@ class CmsUserRoles extends Entity
     public $entity = "CMS User Roles";
     public $tableName = "cms_user_roles";
     public $slug = "cms-user-roles";
-    // public $seeder = CMSUserSeeder::class;
     public $params = [
         'pagination' => 20,
     ];
@@ -32,9 +31,6 @@ class CmsUserRoles extends Entity
     
 
         $this->setRowOperation("Edit" ,  str_replace('{slug}' , $this->slug , $edit_route),  '<i class="fa-solid fa-edit"></i>');
-
-
-
     }
 
     public function columns(){

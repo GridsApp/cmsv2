@@ -67,6 +67,7 @@
                         @endif
                     </div>
                 @endforeach --}}
+                {{-- @dd(collect(get_menu())->where('display', true)); --}}
 
                 @foreach (collect(get_menu())->where('display', true) as $index => $menuItem)
                     {{-- @dd($menuItem); --}}
@@ -93,7 +94,7 @@
 
                             <div x-cloak x-transition:enter.duration.500ms x-transition:leave.duration.400ms
                                 x-show="isHovered" class="menu-dropdown menu-default ">
-                                @foreach ($menuItem['children'] as $childMenuItem)
+                                @foreach (collect($menuItem['children'])->where('display' , true) as $childMenuItem)
                                     <div class="menu-item-dropdown px-4 py-2 hover:bg-gray-100">
                                         <a  wire:navigate  href="{{ $childMenuItem['link'] ?? null }}" @click="activeParentIndex = {{ $index }}"
                                             class="menu-link-dropdown flex gap-2"
@@ -168,6 +169,15 @@
                                                     class="">
                                                     Account Settings
                                                 </a>
+                                            </div>
+
+                                            <div class="menu-link-dropdown  flex items-center gap-2">
+                                                <i class="fa-solid fa-user"></i>
+                                                <a href="{{ route('entity', ['slug' => 'cms-user-roles']) }}"
+                                                    class="">
+                                                    CMS User Role
+                                                </a>
+                                                
                                             </div>
                                             <div class="menu-link-dropdown ">
                                                 <a href="javascript:;"

@@ -11,7 +11,7 @@ class DefaultServiceProvider extends ServiceProvider{
     public function boot(){
         
         Livewire::component('entity-forms.form' , \twa\cmsv2\Livewire\EntityForms\Form::class);
-        Livewire::component('entity-components.table' , \twa\cmsv2\Livewire\EntityComponents\Table::class);
+        // Livewire::component('entity-components.table' , \twa\cmsv2\Livewire\EntityComponents\Table::class);
         Livewire::component('entity-forms.login-form' , \twa\cmsv2\Livewire\EntityForms\LoginForm::class);
         Livewire::component('entity-forms.settings-form' , \twa\cmsv2\Livewire\EntityForms\SettingsForm::class);
         Livewire::component('entity-forms.role-permissions' , \twa\cmsv2\Livewire\EntityForms\RolePermissions::class);
@@ -38,6 +38,7 @@ class DefaultServiceProvider extends ServiceProvider{
     public function register(){
 
         $this->loadRoutesFrom(__DIR__.'/../Routes/web.php');
+        $this->loadRoutesFrom(__DIR__.'/../Routes/api.php');
         $this->loadViewsFrom(__DIR__.'/../Resources/views/' , 'CMSView');
     }
 

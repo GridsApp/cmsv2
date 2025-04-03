@@ -3,6 +3,8 @@
 @section('content')
     @php
 
+        // dd(session('cms_user_permissions'));
+
         $cms_user = request()->input('cms_user');
 
         if ($cms_user) {

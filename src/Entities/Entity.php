@@ -29,17 +29,43 @@ class Entity
         $this->columns = collect([]);
         $this->attributes = collect([]);
 
-
         $this->addColumn('id');
-
-
-
         $this->setRowOperations();
+
         $this->setTableOperations();
+        $this->getPermissions();
     }
+
+    public function getPermissions()
+    {
+        $base_permissions = ['create', 'show', 'edit', 'delete'];
+
+
+        $permissions = [];
+
+        foreach ($base_permissions as $action => $label) {
+
+
+            $permissions[] = [
+                'key' => "{$label}-{$this->slug}",
+                'label' => ucwords(strtolower($label))
+
+            ];
+        }
+
+        return $permissions;
+    }
+
+    // public function getPermissions(){
+    //     return [
+    //         'create' , 'show' , 'edit' , 'delete'
+    //     ];
+    // }
+
 
     public function setRowOperation($label, $link, $icon)
     {
+
         $this->row_operations[] =
             [
                 'label' => $label,
@@ -59,22 +85,22 @@ class Entity
 
     public function setRowOperations()
     {
+        if (cms_check_permission("edit-" . $this->slug)) {
 
-        $edit_route = "/" . Route::getRoutes()->getByName('entity.update')->uri();
+            $edit_route = "/" . Route::getRoutes()->getByName('entity.update')->uri();
 
-        $this->setRowOperation("Edit",  str_replace('{slug}', $this->slug, $edit_route),  '<i class="fa-solid fa-edit"></i>');
+            $this->setRowOperation("Edit",  str_replace('{slug}', $this->slug, $edit_route),  '<i class="fa-solid fa-edit"></i>');
+        }
     }
+
 
     public function setTableOperations()
     {
+        if (cms_check_permission("create-" . $this->slug)) {
 
-
-        $this->setTableOperation("Add New Record",  route('entity.create', ['slug' => $this->slug]),  '<i class="fa-solid fa-plus"></i>');
+            $this->setTableOperation("Add New Record",  route('entity.create', ['slug' => $this->slug]),  '<i class="fa-solid fa-plus"></i>');
+        }
     }
-
-
-
-
 
     public function fields()
     {

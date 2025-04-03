@@ -24,8 +24,10 @@ class CmsUserRolePermission extends Entity
     }
 
     public function columns(){
+        $this->addColumn("cms_user_role");
 
-        $this->addColumn("label");
+        $this->addColumn("cms_permission");
+        $this->addColumn("menu_key");
       
         return $this->columns;
     }

@@ -38,8 +38,6 @@ class SettingsEntity extends Entity
 
         // $this->addField("system" , ["container" => 'col-span-7']);
 
-
-
         return $this->fields;
     }
 

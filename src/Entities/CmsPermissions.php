@@ -19,6 +19,7 @@ class CmsPermissions extends Entity
         $this->addField("label" , ["container" => 'col-span-7' , 'required' => true]);
         $this->addField("key" , ["container" => 'col-span-7' , 'required' => true]);
         $this->addField("menu_type" , ["container" => 'col-span-7' , 'required' => true]);
+        $this->addField("menu_key" , ["container" => 'col-span-7' , 'required' => true]);
   
         return $this->fields;
     }

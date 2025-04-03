@@ -24,7 +24,8 @@ class CmsAuthMiddleware
         
 
         request()->merge([
-            'cms_user' => $cms_user
+            'cms_user' => $cms_user,
+            'permissions' => session('cms_user_permissions')
         ]);
     
         return $next($request);
