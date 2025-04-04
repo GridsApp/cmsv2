@@ -8,9 +8,4 @@ use App\Http\Middleware\UserMiddleware;
 use Illuminate\Support\Facades\Route;
 
 
-  
-    Route::group(['prefix' => 'api/v1/cms'], function () {
-        Route::get('notifications', [App\Http\Controllers\API\NotificationController::class, 'list']);
-
-
-    });
+Route::get('/api/v1/cms/notifications', [ \twa\cmsv2\Http\Controllers\NotificationController::class, 'list']);

@@ -55,68 +55,28 @@ class NotificationController extends Controller
         $notification->save();
        
 
+        $image_url = get_image($cms_push_notification_template->image);
 
-        $conditions = [];
-        $titles = [];
-        $messages = [];
+        $conditions = [
+            "condition" => [],
+            "value" => []
+        ];
+
+
+        $titles = [
+            'en' => $notification->title_en,
+            'ar' => $notification->title_ar
+        ];
+        $messages = [
+            'en' => $notification->message_en,
+            'ar' => $notification->message_ar
+        ];
         $data = [];
 
+        (new \twa\omnipush\facades\OmniPushFacade("onesignal"))->sendPush($titles,$messages,$conditions , $data , $image_url);
 
-        // [
-
-        //     {
-         
-        //        "en":"Title 1",
-         
-        //        "ar":"Title 2"
-         
-        //     },
-         
-        //     {
-         
-        //        "en":"Message 1",
-         
-        //        "ar":"Message 2"
-         
-        //     },
-         
-        //     {
-         
-        //        "condition":[
-         
-        //           "cinema_id",
-         
-        //           "user_id"
-         
-        //        ],
-         
-        //        "value":[
-         
-        //           "1",
-         
-        //           "21656"
-         
-        //        ]
-         
-        //     },
-         
-        //     [
-         
-        //     ],
-         
-        //     "\/url-link"
-         
-        //  ]
-          
-
-
-        push()->setProvider('onesignal')->setConditions($conditions)->setTitles($titles)->setMessages($messages)->setData($data)->send();
-
-    
-      
         return redirect('/cms/cms-push-notification-templates');
        
-   
     }
     
 }
