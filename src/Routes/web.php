@@ -3,8 +3,8 @@
 use App\Http\Controllers\EntityController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix'=>'cms' ,'middleware' => 'web'], function () {
-  
+Route::group(['prefix' => 'cms', 'middleware' => 'web'], function () {
+
 
     Route::get('/login', function () {
         return view("CMSView::pages.login");
@@ -21,15 +21,18 @@ Route::group(['prefix'=>'cms' ,'middleware' => 'web'], function () {
 
         Route::post('/logout', function () {
             session(['cms_user' => null]);
-            return redirect('/cms'); 
+            return redirect('/cms');
         })->name('logout');
 
         Route::get('/', function () {
             return view("CMSView::pages.dashboard");
         })->name('dashboard');
-        
+
+        Route::get('reports', [twa\cmsv2\Http\Controllers\ReportsController::class, 'render'])->name('list-reports');
+        Route::get('reports/{slug}', [twa\cmsv2\Http\Controllers\ReportsController::class, 'show'])->name('show-report');
+
+
         Route::get('role/{id}/set-permissions', [twa\cmsv2\Http\Controllers\RolePermissionsController::class, 'render'])->name('set-permissions');
-        
         Route::get('{id}/send-notification', [twa\cmsv2\Http\Controllers\NotificationController::class, 'sendNotification'])->name('send-notification');
 
         // Route::get('/settings',function(){ return view("pages.settings"); })->name('settings');

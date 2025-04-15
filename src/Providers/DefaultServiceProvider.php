@@ -30,6 +30,9 @@ class DefaultServiceProvider extends ServiceProvider{
         // Livewire::component('elements.textfield' , \twa\cmsv2\Livewire\Elements\Textfield::class);
         // Livewire::component('elements.toggle' , \twa\cmsv2\Livewire\Elements\Toggle::class);
          Livewire::component('modals.modal', \twa\cmsv2\Livewire\Modals\Modal::class);
+         Livewire::component('reports.report-filter', \twa\cmsv2\Livewire\Reports\ReportFilter::class);
+         Livewire::component('reports.report-data', \twa\cmsv2\Livewire\Reports\ReportData::class);
+
         //  Livewire::component('components.table-grid',\twa\uikit\Components\TableGrid::class);
 
 

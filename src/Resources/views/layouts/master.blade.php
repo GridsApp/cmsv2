@@ -8,6 +8,9 @@
     @yield('master-head')
     @livewireStyles
     @vite(['resources/scss/app.scss', 'resources/js/app.js', ...app('field-assets')])
+
+
+
 </head>
 
 <body>

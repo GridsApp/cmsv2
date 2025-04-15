@@ -58,6 +58,7 @@ class LoginForm extends Component
     public function handleLogin()
     {
 
+        
         $this->validate([
             'form.email' => 'required|email',
             'form.password' => 'required'
@@ -67,6 +68,7 @@ class LoginForm extends Component
         $password = md5($this->form['password']);
 
 
+        // dd($password);
         $cms_user = CmsUser::where('email', $email)->where('password', $password)->whereNull('deleted_at')->first();
 
 
