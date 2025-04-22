@@ -18,6 +18,7 @@
 
     @if (!$noData && !$isLoading)
 
+    {{-- @dd($data); --}}
 
         <div class="twa-table-card-report">
             <div>

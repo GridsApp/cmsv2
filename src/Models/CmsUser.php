@@ -14,4 +14,4 @@ class CmsUser extends Model
         'roles'=>'array'
     ];
     
-}
+} 

@@ -3,6 +3,8 @@ import Quill from "quill";
 import collect from "collect.js";
 
 export default class Functions {
+
+
     initDrawer() {
         return {
             open: false,
@@ -24,7 +26,8 @@ export default class Functions {
         };
     }
 
-
+  
+  
     initConditions(){
         return {
             open: false,
@@ -1338,6 +1341,7 @@ export default class Functions {
                 }
             },
 
+            
             handleValueChanged(event) {
                 var oldSelectedType = this.selectedType;
 
@@ -1937,4 +1941,6 @@ export default class Functions {
             },
         };
     }
+
+   
 }
