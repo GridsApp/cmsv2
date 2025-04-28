@@ -167,6 +167,7 @@ export default class Functions {
             },
 
             handleCreateCallback(event) {
+                
                 if (this.multiple) {
                     this.selectedValues.push(event.detail.id);
                     this.$wire.value.push(event.detail.id);

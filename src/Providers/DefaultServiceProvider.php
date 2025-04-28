@@ -15,6 +15,7 @@ class DefaultServiceProvider extends ServiceProvider{
         Livewire::component('entity-forms.login-form' , \twa\cmsv2\Livewire\EntityForms\LoginForm::class);
         Livewire::component('entity-forms.settings-form' , \twa\cmsv2\Livewire\EntityForms\SettingsForm::class);
         Livewire::component('entity-forms.role-permissions' , \twa\cmsv2\Livewire\EntityForms\RolePermissions::class);
+   
         // Livewire::component('elements.colorpicker' , \twa\cmsv2\Livewire\Elements\Colorpicker::class);
         // Livewire::component('elements.date' , \twa\cmsv2\Livewire\Elements\Date::class);
         // Livewire::component('elements.datetime' , \twa\cmsv2\Livewire\Elements\Datetime::class);

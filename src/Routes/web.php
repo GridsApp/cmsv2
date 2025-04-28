@@ -10,6 +10,8 @@ Route::group(['prefix' => 'cms', 'middleware' => 'web'], function () {
         return view("CMSView::pages.login");
     })->name('login');
 
+    Route::get('/run-migrate', [twa\cmsv2\Http\Controllers\EntityController::class, 'migrate']);
+
     // Route::prefix('payment')->group(function () {
     //     Route::get('/initialize/{payment_attempt_id}', [App\Http\Controllers\API\PaymentController::class, 'initialize'])->name('payment.initialize');
     //     Route::get('/callback/{payment_attempt_id}', [App\Http\Controllers\API\PaymentController::class, 'callback'])->name('payment.callback');
@@ -37,7 +39,6 @@ Route::group(['prefix' => 'cms', 'middleware' => 'web'], function () {
 
         // Route::get('/settings',function(){ return view("pages.settings"); })->name('settings');
         Route::get('/settings', [twa\cmsv2\Http\Controllers\SettingsController::class, 'render'])->name('settings');
-        Route::get('/run-migrate', [twa\cmsv2\Http\Controllers\EntityController::class, 'migrate']);
         Route::get('/{slug}', [twa\cmsv2\Http\Controllers\EntityController::class, 'render'])->name('entity');
         Route::get('/{slug}/create', [twa\cmsv2\Http\Controllers\EntityController::class, 'create'])->name('entity.create');
         Route::get('/{slug}/update/{id}', [twa\cmsv2\Http\Controllers\EntityController::class, 'update'])->name('entity.update');

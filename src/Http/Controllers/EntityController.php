@@ -171,9 +171,11 @@ class EntityController extends Controller
 
         Process::run('php artisan migrate');
 
+       
+
         foreach (config('entity-mapping') as $className) {
 
-
+          
             $entity = new $className;
 
             $entity_fields =  $entity->fields();
