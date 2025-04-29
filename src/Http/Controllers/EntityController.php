@@ -50,7 +50,7 @@ class EntityController extends Controller
                     $table = $table->manyToMany($field['options']['table'], $field['name'], $field['options']['field'], $column['name'], []);
                 }
                 if ($instance instanceof BelongsTo) {
-                    $table = $table->belongsTo($field['options']['table'], $field['name'],  false)
+                    $table = $table->belongsTo($field['options']['table'], $field['name'],  true)
                         ->addColumn($label, $name,  $type, \twa\uikit\Classes\ColumnOperationTypes\DefaultOperationType::class, [$field['options']['table'] . '.' . $field['options']['field']]);
                     continue;
                 }
@@ -160,6 +160,7 @@ class EntityController extends Controller
 
         return view($path, ['slug' => $slug, 'id' => $id]);
     }
+
 
 
 
