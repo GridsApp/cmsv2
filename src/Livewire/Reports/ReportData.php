@@ -3,6 +3,7 @@
 
 namespace twa\cmsv2\Livewire\Reports;
 
+
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Illuminate\Support\Facades\File;
@@ -10,6 +11,9 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use twa\cmsv2\Jobs\ReportJob;
+use Illuminate\Support\Facades\Cache;
+use Maatwebsite\Excel\Facades\Excel;
+use twa\cmsv2\Reports\Exports\ReportExport;
 
 class ReportData extends Component
 {
@@ -60,6 +64,49 @@ class ReportData extends Component
         }
 
     }
+    public function exportData()
+    {
+        if (empty($this->data)) {
+            return;
+        }
+    
+     
+        $filtered_columns = collect($this->data['columns'])->map(function ($col) {
+            $col['label'] = strip_tags(preg_replace('/<br\s*\/?>/', ' ', $col['label']));
+            return $col;
+        })->toArray();
+    
+      
+        $rows = collect($this->data['rows'])->map(function ($row) {
+            return array_map(function ($col) use ($row) {
+                return $row[$col['name']] ?? '';
+            }, $this->data['columns']); 
+        })->toArray();
+    
+      
+        $footer = [];
+        if (isset($this->data['footer'])) {
+            $footer = collect($this->data['columns'])->map(function ($column) {
+                return $this->data['footer'][$column['name']] ?? '';
+            })->toArray();
+            $rows[] = $footer;
+        }
+    
+       
+        $filterText = $this->filters ? implode('_', array_map(function ($key, $value) {
+            return "{$key}_{$value}";
+        }, array_keys($this->filters), $this->filters)) : 'all';
+    
+    
+        $fileName = "{$this->slug}_{$filterText}.xlsx";
+    
+
+        return Excel::download(new ReportExport($rows, $filtered_columns), $fileName);
+    }
+    
+    
+    
+    
 
 
     public function render()
