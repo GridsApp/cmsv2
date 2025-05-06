@@ -24,6 +24,13 @@
             <div>
                 <div class="twa-card-header">
                     <h3 class="twa-card-title">{{ $class->label ?? '' }}</h3>
+
+                    <div>
+                        <a href="{{ url('/reports/export/' . $slug) . '?' . http_build_query($filters) }}">
+                            <i class="fa-solid fa-download"></i>
+                        </a>
+                        
+                    </div>
                 </div>
 
                 <div class="twa-card-body">
