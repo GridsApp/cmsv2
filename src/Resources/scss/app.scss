@@ -306,16 +306,16 @@ body {
             color: #071437;
         }
     }
-    .card-body {
+    &.card-body {
         flex-grow: 1;
         padding: 1.25rem 1.875rem;
 
-        &.card-body-rounded-top {
+       .card-body-rounded-top {
             border-top-right-radius: 6px;
             border-top-left-radius: 6px;
         }
 
-        &.card-body-rounded-bottom {
+        .card-body-rounded-bottom {
             border-bottom-right-radius: 6px;
             border-bottom-left-radius: 6px;
         }
