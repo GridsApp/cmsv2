@@ -1,26 +1,30 @@
 <div class="relative  ">
 
-    <div wire:loading  class="min-h-[100px] w-full">
-        <div class="bg-white  flex items-center justify-center z-50 border-red-100 shadow w-full p-5 rounded-lg" >
-        <div class="text-center">
+    <div wire:loading class="min-h-[100px] w-full">
+        <div class="bg-white  flex items-center justify-center z-50 border-red-100 shadow w-full p-5 rounded-lg">
+            <div class="text-center">
 
 
-            <i class="fa-solid fa-loader animate-spin  text-black inline-block"></i>
-            <p class="mt-2 text-gray-500 text-[12px]">Loading report data please wait ...</p>
+                <i class="fa-solid fa-loader animate-spin  text-black inline-block"></i>
+                <p class="mt-2 text-gray-500 text-[12px]">Loading report data please wait ...</p>
+            </div>
         </div>
-    </div></div>
+    </div>
 
-    @if(($filters['refine'] ?? 0) == 1)
+    @if (($filters['refine'] ?? 0) == 1)
 
-        <div class="twa-table-card-report" wire:loading.remove >
+        <div class="w-full" wire:loading.remove>
+             
+
+        <div class="twa-table-card-report ">
             <div>
                 <div class="twa-card-header">
                     <h3 class="twa-card-title">{{ $class->label ?? '' }}</h3>
 
-                    <div wire:click="exportData">
-                          <i class="fa-solid fa-download"></i>
-                    
-                    </div>
+                    <button type="button" wire:click="exportData">
+                        <i class="fa-solid fa-download"></i>
+
+                    </button>
                 </div>
 
                 <div class="twa-card-body">
@@ -55,9 +59,10 @@
                                 </tr>
                             @endif
 
-                            @if (empty($data['rows']) )
+                            @if (empty($data['rows']))
                                 <tr class="text-center text-gray-500 p-10">
-                                    <td colspan="{{ count($data['columns'] ?? []) }}">No data found for the selected filters.
+                                    <td colspan="{{ count($data['columns'] ?? []) }}">No data found for the selected
+                                        filters.
                                     </td>
                                 </tr>
                             @endif
@@ -68,7 +73,8 @@
             </div>
         </div>
 
+        </div>
 
-        @endif
+    @endif
 
 </div>
