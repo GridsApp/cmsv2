@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use twa\cmsv2\Jobs\ReportJob;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Response;
 use Maatwebsite\Excel\Facades\Excel;
 use twa\cmsv2\Reports\Exports\ReportExport;
 
@@ -119,6 +120,10 @@ class ReportData extends Component
             return;
         }
     
+
+        ini_set('memory_limit',-1);
+        ini_set('max_excecution_time',300);
+
      
         $filtered_columns = collect($this->data['columns'])->map(function ($col) {
             $col['label'] = strip_tags(preg_replace('/<br\s*\/?>/', ' ', $col['label']));
@@ -152,9 +157,39 @@ class ReportData extends Component
 
         $this->skipRender();
 
-        return Excel::download(new ReportExport($rows, $filtered_columns), $fileName);
+
+        return $this->exportTheData($rows, $filtered_columns ,$fileName);
+        // return Excel::download(new ReportExport($rows, $filtered_columns), $fileName);
     }
     
+
+    public function exportTheData($rows , $columns , $fileName){
+
+
+   
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="'.$fileName.'"',
+        ];
+ 
+        $callback = function () use ($rows){
+            $handle = fopen('php://output', 'w');
+ 
+            // Add CSV header
+            fputcsv($handle, ['ID', 'Name', 'Email']);
+ 
+    
+                foreach ($rows as $row) {
+                    fputcsv($handle, $row);
+                }
+       
+ 
+            fclose($handle);
+        };
+ 
+        return Response::stream($callback, 200, $headers);
+
+    }
 
  
 
