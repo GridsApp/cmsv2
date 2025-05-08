@@ -152,7 +152,7 @@ class ReportData extends Component
         }, array_keys($this->filters), $this->filters)) : 'all';
     
     
-        $fileName = "{$this->slug}_{$filterText}.xlsx";
+        $fileName = "{$this->slug}_{$filterText}.csv";
     
 
         $this->skipRender();
