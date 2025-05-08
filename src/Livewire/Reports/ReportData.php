@@ -168,15 +168,15 @@ class ReportData extends Component
 
    
         $headers = [
-            'Content-Type' => 'text/csv',
+            'Content-Type' => 'text/csv; charset=UTF-8',
             'Content-Disposition' => 'attachment; filename="'.$fileName.'"',
         ];
  
-        $callback = function () use ($rows){
+        $callback = function () use ($rows, $columns){
             $handle = fopen('php://output', 'w');
  
-            // Add CSV header
-            fputcsv($handle, ['ID', 'Name', 'Email']);
+            fprintf($handle, chr(0xEF).chr(0xBB).chr(0xBF));
+            fputcsv($handle, collect($columns)->pluck('label')->toArray());
  
     
                 foreach ($rows as $row) {
