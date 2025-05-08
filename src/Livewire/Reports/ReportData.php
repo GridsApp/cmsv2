@@ -85,6 +85,11 @@ class ReportData extends Component
 
     public function loadData()
     {
+
+
+        ini_set('memory_limit',-1);
+        ini_set('max_excecution_time',300);
+
         $class = (new $this->classPath);
 
 
@@ -159,7 +164,8 @@ class ReportData extends Component
      
 
         if(($this->filters['refine'] ?? 0) == 1 ){
-            sleep(10);
+       
+
             $this->loadData();
         }
 
