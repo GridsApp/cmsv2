@@ -9,6 +9,9 @@
     <div class="container-fixed flex flex-col gap-8">
         <div class="flex flex-col gap-8">
 
+            <div>
+                <h3 class="font-bold text-[16px]"> {{$title}}</h3>
+            </div>
 
             <livewire:reports.report-filter :slug="$slug" />
 

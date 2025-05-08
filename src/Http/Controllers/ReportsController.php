@@ -15,23 +15,42 @@ class ReportsController extends Controller
 
         $reports = get_report_classes();
 
-        foreach($reports as $slug=>$report){
+        foreach ($reports as $slug => $report) {
 
             $class = new $report;
 
-            $result [] =  [
+            $result[] =  [
                 'slug' => $slug,
                 'label' => $class->label
             ];
         }
 
-     
+
         return view("CMSView::pages.reports.list", ['result' => $result]);
     }
 
     public function show($slug)
     {
-        return view("CMSView::pages.reports.show", ['slug' => $slug]);
+
+        $reports = get_report_classes();
+
+        $class = $reports[$slug] ?? null;
+
+        if (!$class) {
+            abort(404);
+        }
+
+        $class = new $class;
+
+
+      
+
+
+
+
+
+
+        return view("CMSView::pages.reports.show", ['slug' => $slug,'title'=>$class->label]);
     }
 
 
@@ -40,7 +59,7 @@ class ReportsController extends Controller
     // {
 
 
-       
+
 
     //     $files = [];
 
@@ -69,6 +88,6 @@ class ReportsController extends Controller
     //     }
 
     //     return $result;
-        
+
     // }
 }
