@@ -5,7 +5,7 @@
     <title>Reports</title>
 @endsection
 @section('content')
-    <div class="container-fixed">
+    <div class="container-fixed mb-10">
         <div class="twa-table-card ">
 
             <div class="twa-card-header ">

@@ -45,6 +45,9 @@ class ReportFilter extends Component
 
     public function applyFilters(){
 
+
+
+
         $class = new $this->classPath;
 
         $required_array = [];
@@ -61,10 +64,20 @@ class ReportFilter extends Component
             $this->validate($required_array , [] , $required_messages);
         }
 
-        
-                   
-        $this->dispatch('start-report' , $this->form);    
+        // return redirect()->route('show-report', $query);
+        $query = array_merge(['slug' => $this->slug], ['refine' => 1], $this->form);
+        // return redirect()->route('show-report', $query);
+        return $this->dispatch('render-report-data' , form: $query);
+        return $this->render();
+        // $this->dispatch('start-report' , $this->form);    
     }
+
+//     public function applyFilters()
+// {
+//     $query = array_merge(['slug' => $this->slug], $this->form);
+
+//     return redirect()->route('show-report', $query); // Use your route name and pass filters as query params
+// }
 
 
 }

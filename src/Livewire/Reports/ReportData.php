@@ -30,40 +30,84 @@ class ReportData extends Component
     public function mount()
     {
         $classes = get_report_classes();
+
+       
         $this->classPath = $classes[$this->slug];
         $this->cms_user_id = session('cms_user')->id;
-    }
 
 
-    #[On('start-report')]
-    public function updateFilters($filters)
-    {
-
+      
+        
         $this->noData = true;
-        $this->isLoading = true;
-        $this->filters = $filters;      
-
-        $fileName = now()->format('d-m-Y__h:i:s');
-
-        $this->storagePath =  "/reports/$this->slug/$this->cms_user_id/$fileName.json";
-
-        dispatch(new ReportJob($this->classPath , $filters , $this->storagePath));
+        $this->isLoading = false;
     }
 
-    public function getData(){
+
+
+    #[On('render-report-data')] 
+    public function renderReportData($form){
+        
+        $this->data = null;
+        $this->filters = $form;
+        $this->render();
+    }
+
+
+    // #[On('start-report')]
+    // public function updateFilters($filters)
+    // {
+
+    //     $this->noData = true;
+    //     $this->isLoading = true;
+    //     $this->filters = $filters;      
+
+    //     $fileName = now()->format('d-m-Y__h:i:s');
+
+    //     $this->storagePath =  "/reports/$this->slug/$this->cms_user_id/$fileName.json";
+
+    //     dispatch(new ReportJob($this->classPath , $filters , $this->storagePath));
+    // }
+
+    // public function getData(){
        
-        if($this->storagePath && Storage::disk('local')->exists($this->storagePath)){
-            $this->isLoading = false;
-            $this->data = json_decode(Storage::disk('local')->get($this->storagePath) , 1);
+    //     if($this->storagePath && Storage::disk('local')->exists($this->storagePath)){
+    //         $this->isLoading = false;
+    //         $this->data = json_decode(Storage::disk('local')->get($this->storagePath) , 1);
            
-            $this->noData =false;
-            $this->isLoading = false;
+    //         $this->noData =false;
+    //         $this->isLoading = false;
 
-            $this->dispatch('query-completed');
+    //         $this->dispatch('query-completed');
 
-        }
+    //     }
+
+    // }
+
+    public function loadData()
+    {
+        $class = (new $this->classPath);
+
+
+        $class->setFilterResults($this->filters);
+        $class->header();
+        $columns = $class->columns;
+        $rows = $class->rows();
+
+        $footer = $class->footer;
+
+        $this->data =  [
+            'columns' => $columns ,
+            'footer' => $footer ,
+            'rows' => $rows,
+            'filters' => $this->filters,
+            'created_at' => now()
+        ];
 
     }
+    
+
+
+    
     public function exportData()
     {
         if (empty($this->data)) {
@@ -104,16 +148,25 @@ class ReportData extends Component
         return Excel::download(new ReportExport($rows, $filtered_columns), $fileName);
     }
     
-    
-    
-    
 
+ 
 
     public function render()
     {
-      
+
+
+
+     
+
+        if(($this->filters['refine'] ?? 0) == 1 ){
+            sleep(10);
+            $this->loadData();
+        }
+
+
         $class = new $this->classPath;
 
-        return view('CMSView::components.reports.report-data', ['class' => $class ]);
+
+        return view('CMSView::components.reports.report-data', ['class' => $class,'data' => $this->data ]);
     }
 }

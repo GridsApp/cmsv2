@@ -12,7 +12,19 @@
 
             <livewire:reports.report-filter :slug="$slug" />
 
-            <livewire:reports.report-data lazy :slug="$slug" />
+
+            @php
+                $filters = request()->all();
+               
+                unset($filters['cms_user']);
+                unset($filters['permissions']);
+
+            @endphp
+
+            
+            {{-- @if(isset($filters['refine']) && $filters['refine'] == 1) --}}
+                <livewire:reports.report-data  :slug="$slug" lazy />
+            {{-- @endif --}}
         </div>
 
 

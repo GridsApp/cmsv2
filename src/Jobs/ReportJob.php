@@ -34,6 +34,7 @@ class ReportJob implements ShouldQueue
     {
 
         $class = (new $this->classPath);
+        // dd($class);
         $class->setFilterResults($this->filters);
         
         $class->header();

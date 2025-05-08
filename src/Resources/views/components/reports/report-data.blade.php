@@ -1,26 +1,18 @@
-<div class="relative  min-h-[200px]">
+<div class="relative  ">
+
+    <div wire:loading  class="min-h-[100px] w-full">
+        <div class="bg-white  flex items-center justify-center z-50 border-red-100 shadow w-full p-5 rounded-lg" >
+        <div class="text-center">
 
 
-    @if ($noData && !$isLoading)
-    @endif
-
-    @if ($noData && $isLoading)
-        <div class="absolute inset-0 bg-white  flex items-center justify-center z-50" wire:poll="getData">
-            <div class="text-center">
-
-
-                <i class="fa-regular fa-loader animate-spin  text-black inline-block"></i>
-                <p class="mt-2 text-gray-500 text-[12px]">Loading report data please wait</p>
-            </div>
+            <i class="fa-solid fa-loader animate-spin  text-black inline-block"></i>
+            <p class="mt-2 text-gray-500 text-[12px]">Loading report data please wait ...</p>
         </div>
-    @endif
+    </div></div>
 
+    @if(($filters['refine'] ?? 0) == 1)
 
-    @if (!$noData && !$isLoading)
-
-    {{-- @dd($data); --}}
-
-        <div class="twa-table-card-report">
+        <div class="twa-table-card-report" wire:loading.remove >
             <div>
                 <div class="twa-card-header">
                     <h3 class="twa-card-title">{{ $class->label ?? '' }}</h3>
@@ -37,7 +29,7 @@
 
                         <thead>
                             <tr>
-                                @foreach ($data['columns'] as $column)
+                                @foreach ($data['columns'] ?? [] as $column)
                                     <th class="cursor-pointer">
                                         {!! $column['label'] !!}
                                     </th>
@@ -48,16 +40,16 @@
 
                         <tbody>
 
-                            @foreach ($data['rows'] as $row)
+                            @foreach ($data['rows'] ?? [] as $row)
                                 <tr>
-                                    @foreach ($data['columns'] as $column)
+                                    @foreach ($data['columns'] ?? [] as $column)
                                         <td> {{ $row[$column['name']] ?? '' }}</td>
                                     @endforeach
                                 </tr>
                             @endforeach
-                            @if (!empty($data['rows']))
+                            @if (!empty($data['rows'] ?? []))
                                 <tr class="twa-footer-row">
-                                    @foreach ($data['columns'] as $column)
+                                    @foreach ($data['columns'] ?? [] as $column)
                                         <td> {{ $data['footer'][$column['name']] ?? '' }}</td>
                                     @endforeach
                                 </tr>
@@ -65,7 +57,7 @@
 
                             @if (empty($data['rows']) )
                                 <tr class="text-center text-gray-500 p-10">
-                                    <td colspan="{{ count($data['columns']) }}">No data found for the selected filters.
+                                    <td colspan="{{ count($data['columns'] ?? []) }}">No data found for the selected filters.
                                     </td>
                                 </tr>
                             @endif
@@ -76,6 +68,7 @@
             </div>
         </div>
 
-    @endif
+
+        @endif
 
 </div>

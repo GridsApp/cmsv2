@@ -39,6 +39,8 @@ if (!function_exists('get_report_classes')) {
     
           
     
+
+            
             $path = str_replace(app_path() . DIRECTORY_SEPARATOR, '', $file->getPathname());
 
             $full_path_of_class_including_namespace = '\\App\\' . str_replace(['/', '.php'], ['\\', ''], $path);

@@ -13,6 +13,8 @@ class DefaultReport
 
     protected $reportData = [];
 
+
+
     public function __construct()
     {
 
@@ -30,6 +32,8 @@ class DefaultReport
 
     public function setRow($data)
     {
+
+
         $row = [];
 
         foreach ($this->columns as $column) {
@@ -112,7 +116,8 @@ class DefaultReport
 
     public function getRows()
     {
-      
+        
+        return $this->rows;
     }
 
  
