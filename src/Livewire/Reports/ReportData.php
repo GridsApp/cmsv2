@@ -129,7 +129,7 @@ class ReportData extends Component
         $rows = collect($this->data['rows'])->map(function ($row) {
             return array_map(function ($col) use ($row) {
                 return $row[$col['name']] ?? '';
-            }, $this->data['columns']); 
+            }, collect($this->data['columns'])->toArray()); 
         })->toArray();
     
       
@@ -149,6 +149,8 @@ class ReportData extends Component
     
         $fileName = "{$this->slug}_{$filterText}.xlsx";
     
+
+        $this->skipRender();
 
         return Excel::download(new ReportExport($rows, $filtered_columns), $fileName);
     }
