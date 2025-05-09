@@ -26,6 +26,13 @@ if (!function_exists('get_report_classes')) {
     {
         $files = [];
 
+       $mappings =  config('reports.mappings');
+
+       if($mappings && is_array($mappings)){
+            return $mappings;
+       }
+
+
         $directories = config('reports.directories');
     
         foreach ($directories as $directory) {

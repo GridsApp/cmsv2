@@ -15,6 +15,8 @@ class ReportsController extends Controller
 
         $reports = get_report_classes();
 
+        dd($reports);
+
         foreach ($reports as $slug => $report) {
 
             $class = new $report;
