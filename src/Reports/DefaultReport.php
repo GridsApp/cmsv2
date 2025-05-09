@@ -9,7 +9,7 @@ class DefaultReport
     public $rows = [];
     public $footer = [];
     public $filterResults = [];
-
+    public $pagination = null;
 
     protected $reportData = [];
 
@@ -29,6 +29,9 @@ class DefaultReport
         $this->rows = $this->rows();
     }
 
+    public function removePagination(){
+        $this->pagination = null;
+    }
 
     public function setRow($data)
     {

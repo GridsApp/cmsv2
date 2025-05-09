@@ -50,7 +50,7 @@ class ReportsController extends Controller
 
 
 
-        return view("CMSView::pages.reports.show", ['slug' => $slug,'title'=>$class->label]);
+        return view("CMSView::pages.reports.show", ['slug' => $slug,'pagination' => $class->pagination , 'title'=>$class->label]);
     }
 
 

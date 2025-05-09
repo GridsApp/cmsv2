@@ -15,18 +15,23 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Response;
 use Maatwebsite\Excel\Facades\Excel;
 use twa\cmsv2\Reports\Exports\ReportExport;
+use Livewire\WithPagination;
 
 class ReportData extends Component
 {
+
+    use WithPagination;
 
     public $slug;
     public $filters = [];
     public $classPath;
     public $storagePath;
     public $noData = true;
-    public $data = [];
+
     public $isLoading = false;
     public $cms_user_id = null;
+
+    public $pagination = null;
 
     public function mount()
     {
@@ -48,7 +53,6 @@ class ReportData extends Component
     #[On('render-report-data')] 
     public function renderReportData($form){
         
-        $this->data = null;
         $this->filters = $form;
         $this->render();
     }
@@ -98,10 +102,11 @@ class ReportData extends Component
         $class->header();
         $columns = $class->columns;
         $rows = $class->rows();
+      
 
         $footer = $class->footer;
 
-        $this->data =  [
+        return [
             'columns' => $columns ,
             'footer' => $footer ,
             'rows' => $rows,
@@ -116,32 +121,48 @@ class ReportData extends Component
     
     public function exportData()
     {
-        if (empty($this->data)) {
-            return;
-        }
-    
 
         ini_set('memory_limit',-1);
         ini_set('max_excecution_time',300);
 
+        $class = (new $this->classPath);
+
+
+        $class->setFilterResults($this->filters);
+        $class->header();
+        $columns = $class->columns;
+        $class->removePagination();
+        $rows = $class->rows();
+        $footer = $class->footer;
+
+        $data =  [
+            'columns' => $columns ,
+            'footer' => $footer ,
+            'rows' => $rows,
+            'filters' => $this->filters,
+            'created_at' => now()
+        ];
+        // dd($data);
+
+
      
-        $filtered_columns = collect($this->data['columns'])->map(function ($col) {
+        $filtered_columns = collect($data['columns'])->map(function ($col) {
             $col['label'] = strip_tags(preg_replace('/<br\s*\/?>/', ' ', $col['label']));
             return $col;
         })->toArray();
     
       
-        $rows = collect($this->data['rows'])->map(function ($row) {
-            return array_map(function ($col) use ($row) {
+        $rows = collect($data['rows'])->map(function ($row) use ($data) {
+            return array_map(function ($col) use ($row , $data) {
                 return $row[$col['name']] ?? '';
-            }, collect($this->data['columns'])->toArray()); 
+            }, collect($data['columns'])->toArray()); 
         })->toArray();
     
       
         $footer = [];
-        if (isset($this->data['footer'])) {
-            $footer = collect($this->data['columns'])->map(function ($column) {
-                return $this->data['footer'][$column['name']] ?? '';
+        if (isset($data['footer'])) {
+            $footer = collect($data['columns'])->map(function ($column) use ($data) {
+                return $data['footer'][$column['name']] ?? '';
             })->toArray();
             $rows[] = $footer;
         }
@@ -166,6 +187,7 @@ class ReportData extends Component
     public function exportTheData($rows , $columns , $fileName){
 
 
+
    
         $headers = [
             'Content-Type' => 'text/csv; charset=UTF-8',
@@ -173,6 +195,9 @@ class ReportData extends Component
         ];
  
         $callback = function () use ($rows, $columns){
+
+
+     
             $handle = fopen('php://output', 'w');
  
             fprintf($handle, chr(0xEF).chr(0xBB).chr(0xBF));
@@ -180,6 +205,7 @@ class ReportData extends Component
  
     
                 foreach ($rows as $row) {
+                    // dd($row);
                     fputcsv($handle, $row);
                 }
        
@@ -196,20 +222,17 @@ class ReportData extends Component
     public function render()
     {
 
-
-
-     
+        $data = [];
 
         if(($this->filters['refine'] ?? 0) == 1 ){
-       
-
-            $this->loadData();
+    
+           $data =  $this->loadData();
         }
 
 
         $class = new $this->classPath;
 
 
-        return view('CMSView::components.reports.report-data', ['class' => $class,'data' => $this->data ]);
+        return view('CMSView::components.reports.report-data', ['class' => $class,'data' => $data ]);
     }
 }

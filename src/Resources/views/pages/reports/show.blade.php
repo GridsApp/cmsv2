@@ -26,7 +26,7 @@
 
             
             {{-- @if(isset($filters['refine']) && $filters['refine'] == 1) --}}
-                <livewire:reports.report-data  :slug="$slug" lazy />
+                <livewire:reports.report-data  :pagination="$pagination" :slug="$slug" lazy />
             {{-- @endif --}}
         </div>
 

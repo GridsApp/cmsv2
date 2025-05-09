@@ -51,7 +51,7 @@
                                     @endforeach
                                 </tr>
                             @endforeach
-                            @if (!empty($data['rows'] ?? []))
+                            @if (!empty($data['rows'] ?? []) && !$class->pagination)
                                 <tr class="twa-footer-row">
                                     @foreach ($data['columns'] ?? [] as $column)
                                         <td> {{ $data['footer'][$column['name']] ?? '' }}</td>
@@ -73,6 +73,12 @@
             </div>
         </div>
 
+        @if($class->pagination)
+   
+        <div class="py-5">
+            {!! $data['rows']->links() !!}  
+        </div>
+        @endif
         </div>
 
     @endif
