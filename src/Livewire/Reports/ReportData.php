@@ -93,8 +93,10 @@ class ReportData extends Component
 
 
         ini_set('memory_limit',-1);
-        ini_set('max_excecution_time',300);
+        ini_set('max_excecution_time',3000);
 
+        $classes = get_report_classes();
+        $this->classPath = $classes[$this->slug];
         $class = (new $this->classPath);
 
 
@@ -123,8 +125,10 @@ class ReportData extends Component
     {
 
         ini_set('memory_limit',-1);
-        ini_set('max_excecution_time',300);
+        ini_set('max_excecution_time',3000);
 
+        $classes = get_report_classes();
+        $this->classPath = $classes[$this->slug];
         $class = (new $this->classPath);
 
 
@@ -230,7 +234,9 @@ class ReportData extends Component
         }
 
 
-        $class = new $this->classPath;
+        $classes = get_report_classes();
+        $this->classPath = $classes[$this->slug];
+        $class = (new $this->classPath);
 
 
         return view('CMSView::components.reports.report-data', ['class' => $class,'data' => $data ]);
