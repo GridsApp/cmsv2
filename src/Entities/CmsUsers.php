@@ -2,7 +2,7 @@
 
 namespace twa\cmsv2\Entities;
 
-use Database\Seeders\CMSUserSeeder;
+use twa\cmsv2\Database\Seeders\CMSUserSeeder;
 
 class CmsUsers extends Entity
 {

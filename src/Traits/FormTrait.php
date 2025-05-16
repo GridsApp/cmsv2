@@ -28,6 +28,7 @@ trait FormTrait {
 
 
     public function setFieldValue($field , $data = null){
+        
         $this->form[$field['name']] = field_init($field, $data);
     }
 
