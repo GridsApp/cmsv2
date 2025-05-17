@@ -120,11 +120,11 @@
                 <div @mouseenter="open = true" @mouseleave="open = false"
                     class="h-full flex items-center cursor-pointer">
                     @if (!request()->input('cms_user'))
-                        <a href="{{ route('login') }}" class="twa-btn-icon">
+                        <a href="{{ route('cms-login') }}" class="twa-btn-icon">
                             <i class="fa-solid fa-user"></i>
                         </a>
                     @else
-                        <form id="logout-form" method="POST" action="{{ route('logout') }}"
+                        <form id="logout-form" method="POST" action="{{ route('cms-logout') }}"
                             style="visibility: hidden;">
                             @csrf
                         </form>

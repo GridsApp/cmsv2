@@ -18,7 +18,7 @@ class CmsAuthMiddleware
 
         $cms_user = session('cms_user');
         if(!$cms_user){
-            return redirect()->route('login');
+            return redirect()->route('cms-login');
         }
 
         

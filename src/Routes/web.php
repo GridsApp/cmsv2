@@ -8,7 +8,7 @@ Route::group(['prefix' => 'cms', 'middleware' => 'web'], function () {
 
     Route::get('/login', function () {
         return view("CMSView::pages.login");
-    })->name('login');
+    })->name('cms-login');
 
     Route::get('/run-migrate', [twa\cmsv2\Http\Controllers\EntityController::class, 'migrate']);
 
@@ -24,11 +24,11 @@ Route::group(['prefix' => 'cms', 'middleware' => 'web'], function () {
         Route::post('/logout', function () {
             session(['cms_user' => null]);
             return redirect('/cms');
-        })->name('logout');
+        })->name('cms-logout');
 
         Route::get('/', function () {
             return view("CMSView::pages.dashboard");
-        })->name('dashboard');
+        })->name('cms-dashboard');
 
         Route::get('reports', [twa\cmsv2\Http\Controllers\ReportsController::class, 'render'])->name('list-reports');
         Route::get('reports/{slug}', [twa\cmsv2\Http\Controllers\ReportsController::class, 'show'])->name('show-report');
