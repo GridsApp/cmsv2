@@ -1,6 +1,6 @@
 <?php
 
-namespace twa\cmsv2\Database\Seeders;
+namespace twa\cmsv2\Database\seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
