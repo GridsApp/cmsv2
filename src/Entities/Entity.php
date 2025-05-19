@@ -23,6 +23,11 @@ class Entity
     public $filters = [];
     public $conditions = [];
 
+    public $enableSorting = false;
+    public $sortingCardLabel = null;
+
+
+
     public function __construct()
     {
         $this->fields = collect([]);

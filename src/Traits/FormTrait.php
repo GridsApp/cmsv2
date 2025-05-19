@@ -255,6 +255,8 @@ trait FormTrait {
             $array['attributes'] = json_encode($attributes_array);
         }
 
+       
+
         if (!$this->unique_id) {
 
         }
@@ -272,6 +274,9 @@ trait FormTrait {
         } else {
             $array['created_at'] = now();
             $array['updated_at'] = $array['created_at'];
+            if(Schema::hasColumn( $this->entity['table'],'orders')){
+                $array['orders'] = DB::table($this->entity['table'])->max('orders') + 1;
+            }
 
 
 

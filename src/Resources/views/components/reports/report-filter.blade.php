@@ -16,7 +16,7 @@
     </div>
     <div class="flex gap-4">
         <div class=" w-full mt-10">
-            <a href="{{ route('show-report', ['slug' => $slug]) }}" class="btn bg-gray-300 text-white w-full">Clear
+            <a href="{{ route('cms-show-report', ['slug' => $slug]) }}" class="btn bg-gray-300 text-white w-full">Clear
                 filters</a>
         </div>
         <div class=" w-full mt-10">

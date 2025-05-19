@@ -101,6 +101,13 @@ class EntityController extends Controller
         }
 
 
+        if($entity->enableSorting){
+            $table->addTableOperation(
+                'Sorting' , route('cms-entity.sorting' , ['slug' => $entity->slug]) ,''
+            );
+        }
+
+
 
 
 
@@ -228,6 +235,11 @@ class EntityController extends Controller
                         (new $entity_field['type']($entity_field))->db($table);
                     }
                 }
+
+                if($entity->enableSorting && !Schema::hasColumn($entity->tableName , 'orders')){
+                    $table->bigInteger('orders')->default(0);
+                }
+
             });
 
 

@@ -26,7 +26,7 @@ class CmsUserRoles extends Entity
 
         $edit_route = "/".Route::getRoutes()->getByName('entity.update')->uri();
 
-        $route = "/".Route::getRoutes()->getByName('set-permissions')->uri();
+        $route = "/".Route::getRoutes()->getByName('cms-set-permissions')->uri();
         $this->setRowOperation("Set Permissions" , $route , '<i class="fa-solid fa-eye"></i>');
     
 

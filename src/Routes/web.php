@@ -30,12 +30,16 @@ Route::group(['prefix' => 'cms', 'middleware' => 'web'], function () {
             return view("CMSView::pages.dashboard");
         })->name('cms-dashboard');
 
-        Route::get('reports', [twa\cmsv2\Http\Controllers\ReportsController::class, 'render'])->name('list-reports');
-        Route::get('reports/{slug}', [twa\cmsv2\Http\Controllers\ReportsController::class, 'show'])->name('show-report');
+
+        Route::get('/{slug}/sorting' , [twa\cmsv2\Http\Controllers\EntitySortingController::class , 'render'] )->name('cms-entity.sorting');
+        Route::post('/{slug}/sorting' , [twa\cmsv2\Http\Controllers\EntitySortingController::class , 'save'] )->name('cms-entity.sorting.post');
+
+        Route::get('reports', [twa\cmsv2\Http\Controllers\ReportsController::class, 'render'])->name('cms-list-reports');
+        Route::get('reports/{slug}', [twa\cmsv2\Http\Controllers\ReportsController::class, 'show'])->name('cms-show-report');
 
 
-        Route::get('role/{id}/set-permissions', [twa\cmsv2\Http\Controllers\RolePermissionsController::class, 'render'])->name('set-permissions');
-        Route::get('{id}/send-notification', [twa\cmsv2\Http\Controllers\NotificationController::class, 'sendNotification'])->name('send-notification');
+        Route::get('role/{id}/set-permissions', [twa\cmsv2\Http\Controllers\RolePermissionsController::class, 'render'])->name('cms-set-permissions');
+        Route::get('{id}/send-notification', [twa\cmsv2\Http\Controllers\NotificationController::class, 'sendNotification'])->name('cms-send-notification');
 
         // Route::get('/settings',function(){ return view("pages.settings"); })->name('settings');
         Route::get('/settings', [twa\cmsv2\Http\Controllers\SettingsController::class, 'render'])->name('settings');
