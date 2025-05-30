@@ -16,11 +16,11 @@
 
                 {{-- <div class="reports-group-title"> Admits </div> --}}
 
-                @foreach($result as $report)
-                <a href="{{route('cms-show-report' , ['slug' => $report['slug']]) }}" class="reports-title">{{$report['label']}}</a>
-
+                @foreach ($result as $report)
+                    <a href="{{ route('cms-show-report', ['slug' => $report['slug']]) }}"
+                        class="reports-title">{{ $report['label'] }}</a>
                 @endforeach
-        
+
             </div>
         </div>
         {{-- <h1>Admits Reports</h1>

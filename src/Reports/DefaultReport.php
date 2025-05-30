@@ -46,6 +46,10 @@ class DefaultReport
         return $row;
     }
 
+    public function getExportFileName($slug , $filters){
+       return $slug;
+    }
+
 
     public function addColumn($name, $label)
     {

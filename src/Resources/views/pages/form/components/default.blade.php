@@ -1,4 +1,5 @@
 <div>
+    {{-- @dd($custom_attributes) --}}
     <form wire:submit="save">
         <div class="@if ($unique_id) container-content-height-2 @else container-content-height @endif">
             @if ($unique_id)
@@ -19,6 +20,7 @@
                         @endforeach
 
                         @foreach($custom_attributes ?? [] as $attribute)
+                        
                             @php
 
                                 $attribute["container"] = $attribute["container"] ?? "col-span-7";

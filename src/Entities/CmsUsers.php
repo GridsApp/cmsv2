@@ -35,4 +35,12 @@ class CmsUsers extends Entity
 
         return $this->columns;
     }
+
+
+    public function attributes()
+    {
+        $this->addAttribute("branch");
+
+        return $this->attributes;
+    }
 }

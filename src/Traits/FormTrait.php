@@ -125,6 +125,9 @@ trait FormTrait {
 
         $this->fields = $currentClass->fields();
 
+
+
+
         $this->custom_attributes = $currentClass->attributes()->map(function($attr_info){
 
 
@@ -291,6 +294,8 @@ trait FormTrait {
                     $values = collect($this->entity['auto_create']['values'])->map(function ($item) use ($id) {
                         return str_replace("{id}", $id, $item);
                     })->toArray();
+
+                  
 
                     DB::table($config['table'])->insertGetId($values);
                 }

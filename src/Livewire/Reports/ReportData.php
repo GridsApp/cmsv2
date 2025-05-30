@@ -171,13 +171,10 @@ class ReportData extends Component
             $rows[] = $footer;
         }
     
-       
-        $filterText = $this->filters ? implode('_', array_map(function ($key, $value) {
-            return "{$key}_{$value}";
-        }, array_keys($this->filters), $this->filters)) : 'all';
-    
-    
-        $fileName = "{$this->slug}_{$filterText}.csv";
+      
+        $filterText = $class->getExportFileName($this->slug, $this->filters);
+
+        $fileName = "{$filterText}.csv";
     
 
         $this->skipRender();
