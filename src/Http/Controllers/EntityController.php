@@ -16,9 +16,9 @@ class EntityController extends Controller
 {
     public function render($slug)
     {
-        // if(!cms_check_permission("show-".$slug)){
-        //     abort(404);
-        // }
+        if(!cms_check_permission("show-".$slug)){
+            abort(404);
+        }
 
 
         $entity = get_entity($slug);
