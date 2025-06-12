@@ -53,7 +53,8 @@
 
 
         <div class="text-[14px] font-bold">
-            Cinema Management System 
+          
+            {{  env('DASHBOARD_TEXT')}}
         </div>
         <br>
         <div class="text-[14px]">
