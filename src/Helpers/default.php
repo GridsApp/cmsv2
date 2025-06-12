@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use twa\cmsv2\Http\Controllers\UploadController;
+use Illuminate\Support\Facades\Lang;
+
 
 if (!function_exists('cms_check_permission')) {
     function cms_check_permission($key)
@@ -20,6 +22,17 @@ if (!function_exists('cms_check_permission')) {
         return in_array($key, $permissions);
     }
 }
+
+
+if (!function_exists('___')) {
+    function ___($key)
+    {
+
+        return Lang::has($key) ? __($key) : null;
+        
+    }
+}
+
 
 if (!function_exists('get_breadcrumbs_link')) {
     function get_breadcrumbs_link($array, $path = [])

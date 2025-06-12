@@ -29,12 +29,12 @@
             </a>
             <div class="flex flex-col mt-[20px] gap-4 text-white">
                 <h3 class="text-[30px] font-semibold ">
-                    {{ __('cms.text') }}
+                    {{ ___('cms.text') }}
                 </h3>
                
                 <p class="text-[14px] max-w-[90%]">
 
-                    {{ __('cms.description') }}
+                    {{ ___('cms.description') }}
                     {{-- Your centralized hub for managing movies, showtimes, and theaters <br> 
                     
                     to help you streamline operations and deliver a seamless cinematic experience to your audience --}}
