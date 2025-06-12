@@ -33,6 +33,16 @@ if (!function_exists('___')) {
     }
 }
 
+if (!function_exists('routeObject')) {
+    function routeObject($name, $params = [])
+    {
+
+        return [
+            'name' => $name,
+            'params' => $params
+        ];
+    }
+}
 
 if (!function_exists('get_breadcrumbs_link')) {
     function get_breadcrumbs_link($array, $path = [])
