@@ -174,7 +174,14 @@ trait FormTrait {
     {
 
 
+        $currentEntity = get_entity($this->entity['slug']);
 
+
+        $result = $currentEntity->submitCallback($this);
+
+        if ($result !== true) {
+            return $result;
+        }
 
         $required_array = [];
         $required_messages = [];

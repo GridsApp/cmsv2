@@ -187,9 +187,10 @@ class Entity
     }
 
 
-    // public function callback($id){
+    public function submitCallback($thisLivewire)
+    {
 
-    // }
 
-
+        return true;
+    }
 }
