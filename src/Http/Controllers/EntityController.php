@@ -2,21 +2,23 @@
 
 namespace twa\cmsv2\Http\Controllers;
 
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use twa\cmsv2\Models\CmsPermissions;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Process;
-use Illuminate\Support\Facades\Route;
-use twa\cmsv2\Models\CmsPermissions;
+use Illuminate\Database\Schema\Blueprint;
+use twa\cmsv2\Jobs\EntityImportFileJob;
 use twa\uikit\Classes\ColumnOperationTypes\BelongsTo;
-use twa\uikit\Classes\ColumnOperationTypes\FileUpload;
+
 use twa\uikit\Classes\ColumnOperationTypes\ManyToMany;
 
 class EntityController extends Controller
 {
     public function render($slug)
     {
-        if(!cms_check_permission("show-".$slug)){
+        if (!cms_check_permission("show-" . $slug)) {
             abort(404);
         }
 
@@ -82,28 +84,28 @@ class EntityController extends Controller
             }
         }
 
-    
+
         foreach ($entity->row_operations as $row_operation) {
-           
-                $table->addRowOperation(
-                    ...$row_operation
-                );
-         
+
+            $table->addRowOperation(
+                ...$row_operation
+            );
         }
 
 
         foreach ($entity->table_operations as $table_operation) {
-           
-                $table->addTableOperation(
-                    ...$table_operation
-                );
- 
+
+            $table->addTableOperation(
+                ...$table_operation
+            );
         }
 
 
-        if($entity->enableSorting){
+        if ($entity->enableSorting) {
             $table->addTableOperation(
-                'Sorting' , route('cms-entity.sorting' , ['slug' => $entity->slug]) ,''
+                'Sorting',
+                route('cms-entity.sorting', ['slug' => $entity->slug]),
+                ''
             );
         }
 
@@ -168,10 +170,6 @@ class EntityController extends Controller
         return view($path, ['slug' => $slug, 'id' => $id]);
     }
 
-
-
-
-
     public function migrate()
     {
 
@@ -179,11 +177,11 @@ class EntityController extends Controller
 
         Process::run('php artisan migrate');
 
-       
+
 
         foreach (config('entity-mapping') as $className) {
 
-          
+
             $entity = new $className;
 
             $entity_fields =  $entity->fields();
@@ -236,10 +234,9 @@ class EntityController extends Controller
                     }
                 }
 
-                if($entity->enableSorting && !Schema::hasColumn($entity->tableName , 'orders')){
+                if ($entity->enableSorting && !Schema::hasColumn($entity->tableName, 'orders')) {
                     $table->bigInteger('orders')->default(0);
                 }
-
             });
 
 
@@ -254,13 +251,13 @@ class EntityController extends Controller
         $menu = config('menu');
         $permissions = [];
         $existing = DB::table('cms_permissions')->pluck('key')->toArray();
-    
-     
+
+
         $processPermissions = function ($menuKey, $newPermissions, $type) use (&$permissions, &$existing) {
             foreach ($newPermissions as $permission) {
                 $key = $permission['key'] ?? null;
                 $label = $permission['label'] ?? null;
-    
+
                 if ($key && !in_array($key, $existing)) {
                     $permissions[] = [
                         'key' => $key,
@@ -274,24 +271,24 @@ class EntityController extends Controller
                 }
             }
         };
-    
-      
+
+
         $processMenu = function ($items) use (&$processMenu, &$processPermissions) {
             foreach ($items as $item) {
                 $menuKey = $item['key'] ?? null;
-                
-               
+
+
                 if (isset($item['children'])) {
                     $processMenu($item['children']);
                 }
-    
-               
+
+
                 if ($menuKey) {
                     if (!empty($item['permissions'])) {
                         $processPermissions($menuKey, $item['permissions'], 'static');
                     }
-    
-                   
+
+
                     if (isset($item['link']['name']) && $item['link']['name'] === 'entity') {
                         $slug = $item['link']['params']['slug'] ?? $item['link']['slug'] ?? $item['entity'] ?? null;
                         if ($slug) {
@@ -304,11 +301,11 @@ class EntityController extends Controller
                 }
             }
         };
-    
-      
+
+
         $processMenu($menu);
-    
- 
+
+
         if (!empty($permissions)) {
             foreach ($permissions as $permission) {
                 DB::table('cms_permissions')->updateOrInsert(
@@ -317,8 +314,45 @@ class EntityController extends Controller
                 );
             }
         }
-    
+
         return $permissions;
     }
-    
+
+    public function importForm($slug)
+    {
+        $entity = get_entity($slug);
+        // Render a view with a file upload form
+        return view('CMSView::pages.entity.import', ['slug' => $slug, 'entity' => $entity]);
+    }
+
+    public function import(Request $request, $slug)
+    {
+        $entity = get_entity($slug);
+
+        $request->validate([
+            'import_file' => 'required|file|mimes:csv',
+        ]);
+
+        $file = $request->file('import_file');
+
+        $entityName = $entity->slug ?? $slug;
+        $timestamp = now()->format('Ymd_His');
+        $filename = "{$entityName}_{$timestamp}.csv";
+        $folder = '/entity_imports/' . $entityName;
+
+        // Store the file as CSV
+        $path = $file->storeAs($folder, $filename);
+
+
+
+        // Push a job
+
+
+        // dd($path);
+        // dispatch(new EntityImportFileJob($entity, $path));
+        dispatch(new \twa\cmsv2\Jobs\EntityImportFileJob($entity, $path));
+
+        return redirect(url("/cms/{$slug}"))
+            ->with('success', "Import file uploaded as {$path}!");
+    }
 }

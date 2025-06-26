@@ -25,19 +25,10 @@
                 {{ $entity['title'] }}
             </h3>
             <div class="flex gap-5">
-
-
-
-
                 <template x-if="selected.length > 0">
                     <div class="flex gap-5 items-center">
-
-
-
                         <div x-data="{ showModal: false, handleOpen() { this.showModal = true } }">
                             {!! button("'Delete ('+ selected.length + ')'", 'danger', null, 'button', null, 'handleOpen') !!}
-
-
                             @component('CMSView::components.modal', [
                                 'title' => 'Delete',
                                 'variable' => 'showModal',

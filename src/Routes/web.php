@@ -31,8 +31,8 @@ Route::group(['prefix' => 'cms', 'middleware' => 'web'], function () {
         })->name('cms-dashboard');
 
 
-        Route::get('/{slug}/sorting' , [twa\cmsv2\Http\Controllers\EntitySortingController::class , 'render'] )->name('cms-entity.sorting');
-        Route::post('/{slug}/sorting' , [twa\cmsv2\Http\Controllers\EntitySortingController::class , 'save'] )->name('cms-entity.sorting.post');
+        Route::get('/{slug}/sorting', [twa\cmsv2\Http\Controllers\EntitySortingController::class, 'render'])->name('cms-entity.sorting');
+        Route::post('/{slug}/sorting', [twa\cmsv2\Http\Controllers\EntitySortingController::class, 'save'])->name('cms-entity.sorting.post');
 
         Route::get('reports', [twa\cmsv2\Http\Controllers\ReportsController::class, 'render'])->name('cms-list-reports');
         Route::get('reports/{slug}', [twa\cmsv2\Http\Controllers\ReportsController::class, 'show'])->name('cms-show-report');
@@ -46,5 +46,9 @@ Route::group(['prefix' => 'cms', 'middleware' => 'web'], function () {
         Route::get('/{slug}', [twa\cmsv2\Http\Controllers\EntityController::class, 'render'])->name('entity');
         Route::get('/{slug}/create', [twa\cmsv2\Http\Controllers\EntityController::class, 'create'])->name('entity.create');
         Route::get('/{slug}/update/{id}', [twa\cmsv2\Http\Controllers\EntityController::class, 'update'])->name('entity.update');
+
+
+        Route::get('{slug}/import', [twa\cmsv2\Http\Controllers\EntityController::class, 'importForm'])->name('entity.import');
+        Route::post('{slug}/import', [twa\cmsv2\Http\Controllers\EntityController::class, 'import'])->name('entity.import.post');
     });
 });

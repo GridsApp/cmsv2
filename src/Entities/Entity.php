@@ -11,6 +11,8 @@ class Entity
     public $attributes;
     public $fields;
     public $columns;
+    public $import_columns;
+    public $import_primary_column = null;
     public $slug = "";
     public $params = [];
     public $render = null;
@@ -33,6 +35,7 @@ class Entity
         $this->fields = collect([]);
         $this->columns = collect([]);
         $this->attributes = collect([]);
+        $this->import_columns = collect([]);
 
         $this->addColumn('id');
         $this->setRowOperations();
@@ -102,8 +105,11 @@ class Entity
     public function setTableOperations()
     {
         if (cms_check_permission("create-" . $this->slug)) {
-
             $this->setTableOperation("Add New Record",  route('entity.create', ['slug' => $this->slug]),  '<i class="fa-solid fa-plus"></i>');
+        }
+        // Add import operation
+        if (cms_check_permission("import-" . $this->slug)) {
+            $this->setTableOperation("Import", route('entity.import', ['slug' => $this->slug]), '<i class="fa-solid fa-file-import"></i>');
         }
     }
 
@@ -147,6 +153,29 @@ class Entity
         return $this;
     }
 
+
+    public function addImportColumn($field , $primary = false){
+        $field = config('fields.' . $field);
+
+        if (!$field) {
+            return $this;
+        }
+
+        $this->import_columns->push($field['name']);
+        
+        if($primary){
+            $this->import_primary_column  = $field['name'];
+        }
+
+        return $this;
+    }
+
+
+
+    public function importConditions($query){
+
+        return $query;
+    }
 
     public function addField($field, $params = [])
     {

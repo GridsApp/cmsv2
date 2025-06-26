@@ -10,6 +10,7 @@ class EntitySortingController extends Controller
 {
     public function render($slug)
     {
+    
         try {
             $entity = get_entity($slug);
         } catch (\Throwable $th) {
@@ -22,6 +23,8 @@ class EntitySortingController extends Controller
             abort(404);
         }
         $rows =  DB::table($entity->tableName)->select('id', $entity->sortingCardLabel . ' AS label', 'orders')->orderBy('orders', 'ASC')->get();
+       
+        // dd($rows);
         return view('CMSView::pages.entity.cms-entity-sorting', ['rows' => $rows, 'entity' => $entity]);
     }
 
