@@ -2,8 +2,7 @@
 
 @section('content')
 
-
-<div class="container mx-auto max-w-lg py-10">
+{{-- <div class="container mx-auto max-w-lg py-10">
     <div class="bg-white shadow-lg rounded-lg p-8 border border-gray-200">
         <h2 class="text-2xl font-bold mb-4 text-center text-primary">Import {{ $entity->entity }}</h2>
         <p class="mb-6 text-gray-600 text-center text-[12px]">
@@ -19,5 +18,7 @@
         </form>
       
     </div>
-</div>
+</div> --}}
+<livewire:entity-forms.import-form   :slug="$slug"/>
+
 @endsection

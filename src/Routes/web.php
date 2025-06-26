@@ -49,6 +49,5 @@ Route::group(['prefix' => 'cms', 'middleware' => 'web'], function () {
 
 
         Route::get('{slug}/import', [twa\cmsv2\Http\Controllers\EntityController::class, 'importForm'])->name('entity.import');
-        Route::post('{slug}/import', [twa\cmsv2\Http\Controllers\EntityController::class, 'import'])->name('entity.import.post');
-    });
+  });
 });

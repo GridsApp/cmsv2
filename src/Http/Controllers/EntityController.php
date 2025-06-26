@@ -321,39 +321,40 @@ class EntityController extends Controller
     public function importForm($slug)
     {
         $entity = get_entity($slug);
+ 
         // Render a view with a file upload form
         return view('CMSView::pages.entity.import', ['slug' => $slug, 'entity' => $entity]);
     }
 
-    public function import(Request $request, $slug)
-    {
-        $entity = get_entity($slug);
+    // public function import(Request $request, $slug)
+    // {
+    //     $entity = get_entity($slug);
 
-        $request->validate([
-            'import_file' => 'required|file|mimes:csv',
-        ]);
+    //     $request->validate([
+    //         'import_file' => 'required|file|mimes:csv',
+    //     ]);
 
-        $file = $request->file('import_file');
+    //     $file = $request->file('import_file');
 
-        $entityName = $entity->slug ?? $slug;
-        $timestamp = now()->format('Ymd_His');
-        $filename = "{$entityName}_{$timestamp}.csv";
-        $folder = '/entity_imports/' . $entityName;
+    //     $entityName = $entity->slug ?? $slug;
+    //     $timestamp = now()->format('Ymd_His');
+    //     $filename = "{$entityName}_{$timestamp}.csv";
+    //     $folder = '/entity_imports/' . $entityName;
 
-        // Store the file as CSV
-        $path = $file->storeAs($folder, $filename);
-
-
-
-        // Push a job
+    //     // Store the file as CSV
+    //     $path = $file->storeAs($folder, $filename);
 
 
-        // dd($path);
-        // dispatch(new EntityImportFileJob($entity, $path));
-        // dispatch(new \twa\cmsv2\Jobs\EntityImportFileJob($entity, $path));
-        (new \twa\cmsv2\Jobs\EntityImportFileJob($entity, $path))->handle();
 
-        return redirect(url("/cms/{$slug}"))
-            ->with('success', "Import file uploaded as {$path}!");
-    }
+    //     // Push a job
+
+
+    //     // dd($path);
+    //     // dispatch(new EntityImportFileJob($entity, $path));
+    //     // dispatch(new \twa\cmsv2\Jobs\EntityImportFileJob($entity, $path));
+    //     (new \twa\cmsv2\Jobs\EntityImportFileJob($entity, $path))->handle();
+
+    //     return redirect(url("/cms/{$slug}"))
+    //         ->with('success', "Import file uploaded as {$path}!");
+    // }
 }
