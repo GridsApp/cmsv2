@@ -25,13 +25,13 @@ class EntityImportFileJob implements ShouldQueue
     public function handle()
     {
 
-        ini_set('memory_limit',-1);
+        ini_set('memory_limit', -1);
         ini_set('max_execution_time', 3000);
-        $path = storage_path("app/".$this->path);
+        $path = storage_path("app/" . $this->path);
         $entity = $this->entity;
-    
 
-  
+
+
         $import_fields = $entity->importColumns()->toArray();
         $field_primary = $entity->import_primary_column;
         // $path = public_path('coupons/batch_12_06_2025.csv');
@@ -43,16 +43,15 @@ class EntityImportFileJob implements ShouldQueue
         $header = null;
         $data = [];
 
-      
+
 
         if (($handle = fopen($path, 'r')) !== false) {
             while (($row = fgetcsv($handle, 1000, ',')) !== false) {
                 if (!$header) {
                     $header = $row;
                 } else {
-
-                   $header =  collect($header)->map(function($header_name){
-                        return str($header_name)->replace(' ' , '_')->toString();
+                    $header = collect($header)->map(function ($header_name) {
+                        return str($header_name)->lower()->replace(' ', '_')->toString();
                     })->toArray();
 
                     $data[] = array_combine($header, $row);
@@ -61,11 +60,11 @@ class EntityImportFileJob implements ShouldQueue
             fclose($handle);
         }
 
-     
+
 
         foreach ($data as $row) {
 
-            
+
             $query = DB::table($entity->tableName)
                 ->whereNull('deleted_at')
                 ->when($field_primary && isset($row[$field_primary]), function ($q) use ($field_primary, $row) {

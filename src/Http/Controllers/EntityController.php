@@ -350,7 +350,8 @@ class EntityController extends Controller
 
         // dd($path);
         // dispatch(new EntityImportFileJob($entity, $path));
-        dispatch(new \twa\cmsv2\Jobs\EntityImportFileJob($entity, $path));
+        // dispatch(new \twa\cmsv2\Jobs\EntityImportFileJob($entity, $path));
+        (new \twa\cmsv2\Jobs\EntityImportFileJob($entity, $path))->handle();
 
         return redirect(url("/cms/{$slug}"))
             ->with('success', "Import file uploaded as {$path}!");
