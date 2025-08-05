@@ -73,7 +73,10 @@ class NotificationController extends Controller
         ];
         $data = [];
 
-        (new \twa\omnipush\facades\OmniPushFacade("onesignal"))->sendPush($titles,$messages,$conditions , $data , $image_url);
+
+
+        $config = config('omnipush.onesignal');
+        (new \twa\cmsv2\Http\Controllers\OneSignalController($config['data']))->sendPush($titles,$messages,$conditions , $data , $image_url);
 
         return redirect('/cms/cms-push-notification-templates');
        
