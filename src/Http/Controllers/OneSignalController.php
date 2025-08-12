@@ -64,6 +64,14 @@ class OneSignalController
             }
 
 
+            if(count($fields['data']) == 0){
+                unset($fields['data']);
+            }
+
+            if(count($fields['tags']) == 0){
+                unset($fields['tags']);
+            }
+
             if($playerID){
                 if(is_array($playerID)){
                     $fields['include_player_ids'] = $playerID;
