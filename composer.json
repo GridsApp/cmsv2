@@ -1,5 +1,5 @@
 {
-    "name": "twa/cmsv2",
+    "name": "grids/cmsv2",
     "description": "This package is for the content management system provided by thewebaddicts",
     "type": "library",
     "license": "MIT",
